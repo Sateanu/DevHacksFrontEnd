@@ -26,6 +26,8 @@ import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.LocationServices;
 
 import exception.overdose.stack.devhacksapp.R;
+import exception.overdose.stack.devhacksapp.managers.RestaurantsManager;
+import exception.overdose.stack.devhacksapp.utils.BEAPI;
 import exception.overdose.stack.devhacksapp.utils.Constants;
 import exception.overdose.stack.devhacksapp.utils.PrefUtils;
 
@@ -150,6 +152,11 @@ public class SignInActivity extends AppCompatActivity implements
             Log.i(TAG, "email: " + acct.getEmail());
             Log.i(TAG, "id: " + acct.getId());
             Log.i(TAG, "idToken: " + acct.getIdToken());
+
+            if(RestaurantsManager.getRestaurantsManager(SignInActivity.this).getRestaurants().size() == 0)
+            {
+                new BEAPI.GetRestaurantsAsync().execute();
+            }
 
             Intent intent = new Intent(SignInActivity.this, MainActivity.class);
             startActivity(intent);

@@ -4,11 +4,14 @@ import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
 import exception.overdose.stack.devhacksapp.R;
 import exception.overdose.stack.devhacksapp.models.MainModel;
+import exception.overdose.stack.devhacksapp.utils.BEAPI;
 import exception.overdose.stack.devhacksapp.views.MainLayout;
 
 public class MainActivity extends AppCompatActivity {
@@ -43,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        new BEAPI.GetRestaurantsAsync().execute();
     }
 
     private void initModel() {
@@ -54,4 +58,5 @@ public class MainActivity extends AppCompatActivity {
         layout.setModel(model);
         layout.setViewListener(viewListener);
     }
+
 }

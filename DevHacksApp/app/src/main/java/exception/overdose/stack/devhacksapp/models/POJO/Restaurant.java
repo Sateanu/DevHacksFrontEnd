@@ -5,12 +5,12 @@ package exception.overdose.stack.devhacksapp.models.POJO;
  */
 public class Restaurant {
 
-    private long Id;
-    private String Name;
-    private String Specific;
-    private float Longitude;
-    private float Latitude;
-    private String Location;
+    private long id;
+    private String name;
+    private String specific;
+    private float longitude;
+    private float latitude;
+    private String location;
 
     public Restaurant()
     {
@@ -19,64 +19,64 @@ public class Restaurant {
 
     public Restaurant(String Name, String Specific, float Longitude, float Latitude, String Location)
     {
-        this.Name = Name;
-        this.Specific = Specific;
-        this.Longitude = Longitude;
-        this.Latitude = Latitude;
-        this.Location = Location;
+        this.name = Name;
+        this.specific = Specific;
+        this.longitude = Longitude;
+        this.latitude = Latitude;
+        this.location = Location;
     }
 
     public Restaurant(long Id, String Name, String Specific, float Longitude, float Latitude, String Location)
     {
         this(Name, Specific, Longitude, Latitude, Location);
-        this.Id = Id;
+        this.id = Id;
     }
 
     public long getId() {
-        return Id;
+        return id;
     }
 
     public void setId(long id) {
-        Id = id;
+        this.id = id;
     }
 
     public String getName() {
-        return Name;
+        return name;
     }
 
     public void setName(String name) {
-        Name = name;
+        this.name = name;
     }
 
     public String getSpecific() {
-        return Specific;
+        return specific;
     }
 
     public void setSpecific(String specific) {
-        Specific = specific;
+        this.specific = specific;
     }
 
     public float getLongitude() {
-        return Longitude;
+        return longitude;
     }
 
     public void setLongitude(float longitude) {
-        Longitude = longitude;
+        this.longitude = longitude;
     }
 
     public float getLatitude() {
-        return Latitude;
+        return latitude;
     }
 
     public void setLatitude(float latitude) {
-        Latitude = latitude;
+        this.latitude = latitude;
     }
 
     public String getLocation() {
-        return Location;
+        return location;
     }
 
     public void setLocation(String location) {
-        Location = location;
+        this.location = location;
     }
 }

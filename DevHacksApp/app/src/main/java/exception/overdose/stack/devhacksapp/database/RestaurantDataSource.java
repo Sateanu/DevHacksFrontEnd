@@ -155,6 +155,7 @@ public class RestaurantDataSource extends BaseDataSource {
     private ContentValues getRestaurantContentValues(Restaurant restaurant) {
         ContentValues contentValues = new ContentValues();
 
+        contentValues.put(DatabaseHelper.COLUMN_ID, restaurant.getId());
         contentValues.put(DatabaseHelper.COLUMN_RESTAURANT_NAME, restaurant.getName());
         contentValues.put(DatabaseHelper.COLUMN_RESTAURANT_SPECIFIC, restaurant.getSpecific());
         contentValues.put(DatabaseHelper.COLUMN_RESTAURANT_LOCATION, restaurant.getLocation());

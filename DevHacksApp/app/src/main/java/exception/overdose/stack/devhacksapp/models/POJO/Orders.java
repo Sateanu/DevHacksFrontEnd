@@ -5,60 +5,84 @@ package exception.overdose.stack.devhacksapp.models.POJO;
  */
 public class Orders {
 
-    private long Id;
-    private long Time;
-    private long RestaurantID;
-    private float Price;
-    private int Discount;
+    private long id;
+    private long time;
+    private long restaurantID;
+    private float price;
+    private int discount;
+    private long userId;
+    private long clusterId;
+    private int done;
 
-    public Orders(long id, long time, long restaurantID, float price, int discount) {
-        Id = id;
-        Time = time;
-        RestaurantID = restaurantID;
-        Price = price;
-        Discount = discount;
+    public Orders(long id, long time, long restaurantID, float price, int discount, long userId) {
+        this(time, restaurantID, price, discount, userId);
+        this.id = id;
+    }
+
+    public Orders(long time, long restaurantID, float price, int discount, long userId) {
+        this.time = time;
+        this.restaurantID = restaurantID;
+        this.price = price;
+        this.discount = discount;
+        this.userId = userId;
     }
 
     public Orders() {
     }
 
     public long getId() {
-        return Id;
+        return id;
     }
 
     public void setId(long id) {
-        Id = id;
+        this.id = id;
     }
 
     public long getTime() {
-        return Time;
+        return time;
     }
 
     public void setTime(long time) {
-        Time = time;
+        this.time = time;
     }
 
     public long getRestaurantID() {
-        return RestaurantID;
+        return restaurantID;
     }
 
     public void setRestaurantID(long restaurantID) {
-        RestaurantID = restaurantID;
+        this.restaurantID = restaurantID;
     }
 
     public float getPrice() {
-        return Price;
+        return price;
     }
 
     public void setPrice(float price) {
-        Price = price;
+        this.price = price;
     }
 
     public int getDiscount() {
-        return Discount;
+        return discount;
     }
 
     public void setDiscount(int discount) {
-        Discount = discount;
+        this.discount = discount;
+    }
+
+    public long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(long userId) {
+        this.userId = userId;
+    }
+
+    public long getClusterId() {
+        return clusterId;
+    }
+
+    public void setClusterId(long clusterId) {
+        this.clusterId = clusterId;
     }
 }

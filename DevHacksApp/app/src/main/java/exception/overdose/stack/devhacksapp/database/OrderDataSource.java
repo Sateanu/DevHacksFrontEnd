@@ -142,22 +142,26 @@ public class OrderDataSource extends BaseDataSource {
         Integer columnOrderPrice = cursor.getColumnIndex(DatabaseHelper.COLUMN_ORDER_PRICE);
         Integer columnOrderRestaurantId = cursor.getColumnIndex(DatabaseHelper.COLUMN_ORDER_RESTAURANTID);
         Integer columnOrderTime = cursor.getColumnIndex(DatabaseHelper.COLUMN_ORDER_TIME);
+        Integer columnOrderUserId = cursor.getColumnIndex(DatabaseHelper.COLUMN_ORDER_USER_ID);
 
         long id = cursor.getLong(columnIdIndex);
         float orderPrice = cursor.getFloat(columnOrderPrice);
         int orderDiscount = cursor.getInt(columnOrderDiscount);
         long orderRestaurantId = cursor.getLong(columnOrderRestaurantId);
         long orderTime = cursor.getLong(columnOrderTime);
+        long userId = cursor.getLong(columnOrderUserId);
 
-        return new Orders(id, orderTime,orderRestaurantId,orderPrice,orderDiscount);
+        return new Orders(id, orderTime,orderRestaurantId,orderPrice,orderDiscount, userId);
     }
     private ContentValues getOrderContentValues(Orders orders) {
         ContentValues contentValues = new ContentValues();
 
+        contentValues.put(DatabaseHelper.COLUMN_ID, orders.getId());
         contentValues.put(DatabaseHelper.COLUMN_ORDER_DISCOUNT, orders.getDiscount());
         contentValues.put(DatabaseHelper.COLUMN_ORDER_PRICE, orders.getPrice());
         contentValues.put(DatabaseHelper.COLUMN_ORDER_RESTAURANTID, orders.getRestaurantID());
         contentValues.put(DatabaseHelper.COLUMN_ORDER_TIME, orders.getTime());
+        contentValues.put(DatabaseHelper.COLUMN_ORDER_USER_ID, orders.getUserId());
 
         return contentValues;
     }

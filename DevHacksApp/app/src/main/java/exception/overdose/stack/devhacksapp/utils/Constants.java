@@ -16,5 +16,6 @@ public class Constants {
         public static final String PREF_USER_ID = "PREF_USER_ID";
     public static final String PREF_USER_LOCATION_LATITUDE ="PREF_USER_LOCATION_LATITUDE";
     public static final String PREF_USER_LOCATION_LONGITUDE ="PREF_USER_LOCATION_LONGITUDE";
+    public static final String PREF_MY_ID ="PREF_MY_ID";
 
 }

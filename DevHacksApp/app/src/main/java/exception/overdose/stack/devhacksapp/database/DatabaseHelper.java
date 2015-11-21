@@ -48,6 +48,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_ORDER_RESTAURANTID="COLUMN_ORDER_RESTAURANTID";
     public static final String COLUMN_ORDER_PRICE="COLUMN_ORDER_PRICE";
     public static final String COLUMN_ORDER_DISCOUNT="COLUMN_ORDER_DISCOUNT";
+    public static final String COLUMN_ORDER_USER_ID="COLUMN_ORDER_USER_ID";
 
     
     /**
@@ -88,7 +89,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         db.execSQL(
                 "create table " + TABLE_RESTAURANT_NAME + " (" +
-                        COLUMN_ID + " integer primary key, " +
+                        COLUMN_ID + " integer, " +
                         COLUMN_RESTAURANT_NAME + " text, " +
                         COLUMN_RESTAURANT_SPECIFIC + " text, " +
                         COLUMN_RESTAURANT_LOCATION + " text, " +
@@ -106,11 +107,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         db.execSQL(
                 "create table " + TABLE_ORDER_NAME + " (" +
-                        COLUMN_ID + " integer primary key, " +
+                        COLUMN_ID + " integer, " +
                         COLUMN_ORDER_PRICE + " real," +
                         COLUMN_ORDER_TIME + " integer," +
                         COLUMN_ORDER_RESTAURANTID + " integer," +
-                        COLUMN_ORDER_DISCOUNT + " integer)"
+                        COLUMN_ORDER_DISCOUNT + " integer," +
+                        COLUMN_ORDER_USER_ID + " integer)"
         );
 
         mydb = db;
