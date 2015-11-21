@@ -25,7 +25,6 @@ import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.LocationServices;
 
-import exception.overdose.stack.devhacksapp.MainActivity;
 import exception.overdose.stack.devhacksapp.R;
 import exception.overdose.stack.devhacksapp.utils.Constants;
 import exception.overdose.stack.devhacksapp.utils.PrefUtils;
