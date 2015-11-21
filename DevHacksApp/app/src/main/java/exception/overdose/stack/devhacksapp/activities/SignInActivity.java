@@ -1,8 +1,12 @@
 package exception.overdose.stack.devhacksapp.activities;
 
+import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -19,8 +23,11 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.OptionalPendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
+import com.google.android.gms.location.LocationServices;
 
 import exception.overdose.stack.devhacksapp.R;
+import exception.overdose.stack.devhacksapp.utils.Constants;
+import exception.overdose.stack.devhacksapp.utils.PrefUtils;
 
 /**
  * Activity to demonstrate basic retrieval of the Google user's ID, email address, and basic
@@ -28,6 +35,7 @@ import exception.overdose.stack.devhacksapp.R;
  */
 public class SignInActivity extends AppCompatActivity implements
         GoogleApiClient.OnConnectionFailedListener,
+        GoogleApiClient.ConnectionCallbacks,
         View.OnClickListener {
 
     private static final String TAG = "SignInActivity";
@@ -69,7 +77,11 @@ public class SignInActivity extends AppCompatActivity implements
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .addApi(LocationServices.API)
                 .build();
+        requestPermission();
         // [END build_client]
 
         // [START customize_button]
@@ -140,9 +152,10 @@ public class SignInActivity extends AppCompatActivity implements
             Log.i(TAG, "id: " + acct.getId());
             Log.i(TAG, "idToken: " + acct.getIdToken());
 
-            Intent intent = new Intent(SignInActivity.this, MainActivity.class);
-            startActivity(intent);
-            SignInActivity.this.finish();
+
+//            Intent intent = new Intent(SignInActivity.this, MainActivity.class);
+//            startActivity(intent);
+//            SignInActivity.this.finish();
 
 //            updateUI(true);
         } else {
@@ -249,6 +262,44 @@ public class SignInActivity extends AppCompatActivity implements
             case R.id.disconnect_button:
                 revokeAccess();
                 break;
+        }
+    }
+
+    @Override
+    public void onConnected(Bundle bundle) {
+        Location lastLocation = LocationServices.FusedLocationApi.getLastLocation(
+                mGoogleApiClient);
+        if (lastLocation != null) {
+            PrefUtils.setStringToPrefs(this, Constants.PREF_USER_LOCATION_LATITUDE,lastLocation.getLatitude()+"");
+            Log.i(TAG, "lati" + lastLocation.getLatitude() + "");
+            PrefUtils.setStringToPrefs(this, Constants.PREF_USER_LOCATION_LONGITUDE, lastLocation.getLongitude() + "");
+            Log.i(TAG, "long" + lastLocation.getLongitude() + "");
+        }
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
+    }
+    private static final int REQUEST_CODE_LOCATION = 2;
+    private void requestPermission(){
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            // Request missing location permission.
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    REQUEST_CODE_LOCATION);
+        } else {
+            // Location permission has been granted, continue as usual.
+            Location lastLocation = LocationServices.FusedLocationApi.getLastLocation(
+                    mGoogleApiClient);
+            if (lastLocation != null) {
+                PrefUtils.setStringToPrefs(this, Constants.PREF_USER_LOCATION_LATITUDE,lastLocation.getLatitude()+"");
+                Log.i(TAG, "lati" + lastLocation.getLatitude() + "");
+                PrefUtils.setStringToPrefs(this, Constants.PREF_USER_LOCATION_LONGITUDE, lastLocation.getLongitude() + "");
+                Log.i(TAG, "long" + lastLocation.getLongitude() + "");
+            }
         }
     }
 }
