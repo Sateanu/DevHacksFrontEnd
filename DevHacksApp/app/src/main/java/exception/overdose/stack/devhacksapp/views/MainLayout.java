@@ -10,6 +10,7 @@ import android.view.View;
 import exception.overdose.stack.devhacksapp.R;
 import exception.overdose.stack.devhacksapp.interfaces.mvc.OnChangeListener;
 import exception.overdose.stack.devhacksapp.models.MainModel;
+import exception.overdose.stack.devhacksapp.views.adapters.RestaurantsAdapter;
 
 public class MainLayout extends RelativeLayout implements OnChangeListener<MainModel> {
 
@@ -19,7 +20,7 @@ public class MainLayout extends RelativeLayout implements OnChangeListener<MainM
     private ViewListener viewListener;
 
     private ListView restaurantsListView;
-
+    private RestaurantsAdapter restaurantsAdapter;
 
     public interface ViewListener {
     }
@@ -51,6 +52,17 @@ public class MainLayout extends RelativeLayout implements OnChangeListener<MainM
     }
 
     private void updateView() {
+
+        if(restaurantsAdapter == null)
+        {
+            restaurantsAdapter = new RestaurantsAdapter(getContext(), getModel().getRestaurants());
+            restaurantsListView.setAdapter(restaurantsAdapter);
+        }
+        else
+        {
+            restaurantsAdapter.setCurrentItems(getModel().getRestaurants());
+            restaurantsAdapter.notifyDataSetChanged();
+        }
     }
 
     @Override

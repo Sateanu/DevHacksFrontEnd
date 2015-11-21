@@ -54,15 +54,21 @@ public class RestaurantsAdapter extends BaseAdapter {
         final ViewHolder holder;
 
         if (convertView == null) {
-            convertView = layoutInflater.inflate(R.layout.row_event, parent, false);
+            convertView = layoutInflater.inflate(R.layout.row_restaurant, parent, false);
 
             holder = new ViewHolder();
-            holder.nameTextView = (TextView) convertView.findViewById(R.id.row_event_title_textview);
+            holder.nameTextView = (TextView) convertView.findViewById(R.id.row_restaurant_name_textview);
+            holder.specificTextView = (TextView) convertView.findViewById(R.id.row_restaurant_specific_textview);
+            holder.locationTextView = (TextView) convertView.findViewById(R.id.row_restaurant_location_textview);
 
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
+
+        holder.nameTextView.setText(currentItems.get(position).getName());
+        holder.specificTextView.setText(currentItems.get(position).getSpecific());
+        holder.locationTextView.setText(currentItems.get(position).getLocation());
 
         return convertView;
     }
