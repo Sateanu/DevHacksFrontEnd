@@ -16,9 +16,9 @@ import java.util.ArrayList;
  */
 public class SubOrderDataSource extends BaseDataSource {
     private String[] allColumns = {DatabaseHelper.COLUMN_ID,
-            DatabaseHelper.COLUMN_PLAYLISTS_NAME,
-            DatabaseHelper.COLUMN_PLAYLISTS_ORDER,
-            DatabaseHelper.COLUMN_PLAYLISTS_SONGS_COUNTER,
+            DatabaseHelper.COLUMN_FOOD_NAME,
+            DatabaseHelper.COLUMN_FOOD_PRICE,
+            DatabaseHelper.COLUMN_FOOD_DESCRIPTION,
     };
 
     private FoodDataSource foodDataSource;
