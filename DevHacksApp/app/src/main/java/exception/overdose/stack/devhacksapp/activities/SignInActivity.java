@@ -81,7 +81,6 @@ public class SignInActivity extends AppCompatActivity implements
                 .addOnConnectionFailedListener(this)
                 .addApi(LocationServices.API)
                 .build();
-        requestPermission();
         // [END build_client]
 
         // [START customize_button]
@@ -152,10 +151,9 @@ public class SignInActivity extends AppCompatActivity implements
             Log.i(TAG, "id: " + acct.getId());
             Log.i(TAG, "idToken: " + acct.getIdToken());
 
-
-//            Intent intent = new Intent(SignInActivity.this, MainActivity.class);
-//            startActivity(intent);
-//            SignInActivity.this.finish();
+            Intent intent = new Intent(SignInActivity.this, MainActivity.class);
+            startActivity(intent);
+            SignInActivity.this.finish();
 
 //            updateUI(true);
         } else {
@@ -267,14 +265,7 @@ public class SignInActivity extends AppCompatActivity implements
 
     @Override
     public void onConnected(Bundle bundle) {
-        Location lastLocation = LocationServices.FusedLocationApi.getLastLocation(
-                mGoogleApiClient);
-        if (lastLocation != null) {
-            PrefUtils.setStringToPrefs(this, Constants.PREF_USER_LOCATION_LATITUDE,lastLocation.getLatitude()+"");
-            Log.i(TAG, "lati" + lastLocation.getLatitude() + "");
-            PrefUtils.setStringToPrefs(this, Constants.PREF_USER_LOCATION_LONGITUDE, lastLocation.getLongitude() + "");
-            Log.i(TAG, "long" + lastLocation.getLongitude() + "");
-        }
+        requestPermission();
     }
 
     @Override
@@ -299,6 +290,33 @@ public class SignInActivity extends AppCompatActivity implements
                 Log.i(TAG, "lati" + lastLocation.getLatitude() + "");
                 PrefUtils.setStringToPrefs(this, Constants.PREF_USER_LOCATION_LONGITUDE, lastLocation.getLongitude() + "");
                 Log.i(TAG, "long" + lastLocation.getLongitude() + "");
+            }
+        }
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_CODE_LOCATION: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    // permission was granted, yay!
+                    Location lastLocation = LocationServices.FusedLocationApi.getLastLocation(
+                            mGoogleApiClient);
+                    if (lastLocation != null) {
+                        PrefUtils.setStringToPrefs(this, Constants.PREF_USER_LOCATION_LATITUDE,lastLocation.getLatitude()+"");
+                        Log.i(TAG, "lati" + lastLocation.getLatitude() + "");
+                        PrefUtils.setStringToPrefs(this, Constants.PREF_USER_LOCATION_LONGITUDE, lastLocation.getLongitude() + "");
+                        Log.i(TAG, "long" + lastLocation.getLongitude() + "");
+                    }
+                } else {
+
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                }
+                return;
             }
         }
     }

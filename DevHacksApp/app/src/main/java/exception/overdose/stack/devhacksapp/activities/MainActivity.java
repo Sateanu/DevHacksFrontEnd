@@ -1,9 +1,11 @@
 package exception.overdose.stack.devhacksapp.activities;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 
 import exception.overdose.stack.devhacksapp.R;
 import exception.overdose.stack.devhacksapp.models.MainModel;
@@ -30,6 +32,17 @@ public class MainActivity extends AppCompatActivity {
         initLayout();
 
         setContentView(layout);
+
+        Button button = (Button) findViewById(R.id.some_button);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            Intent intent = new Intent(MainActivity.this, MapsActivity.class);
+            startActivityForResult(intent,2);
+            }
+        });
+
     }
 
     private void initModel() {

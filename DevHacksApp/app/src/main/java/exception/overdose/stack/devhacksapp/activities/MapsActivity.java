@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -23,12 +24,13 @@ import java.util.Locale;
 
 import exception.overdose.stack.devhacksapp.R;
 import exception.overdose.stack.devhacksapp.utils.Constants;
+import exception.overdose.stack.devhacksapp.utils.PrefUtils;
 import exception.overdose.stack.devhacksapp.utils.ViewUtils;
 
 /**
  * Created by sony on 03/10/2015.
  */
-public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMapClickListener {
+public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMapClickListener,OnMapReadyCallback {
 
     /**
      * The google map
@@ -59,8 +61,10 @@ public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMapCl
         ViewUtils.setActionBarTitle(this, this.getResources().getString(R.string.app_name));
     }
     private void initLayout() {
-        googleMaps = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
+        MapFragment mapFragment=((MapFragment) getFragmentManager().findFragmentById(R.id.map));
+        googleMaps = mapFragment.getMap();
         googleMaps.setOnMapClickListener(this);
+        mapFragment.getMapAsync(this);
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -134,4 +138,12 @@ public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMapCl
             return "";
         }
     }
+   @Override
+  public void onMapReady(GoogleMap googleMap) {
+       double latitude=Double.parseDouble(PrefUtils.getStringFromPrefs(this, Constants.PREF_USER_LOCATION_LATITUDE, "0"));
+       double longitude=Double.parseDouble(PrefUtils.getStringFromPrefs(this, Constants.PREF_USER_LOCATION_LONGITUDE, "0"));
+       googleMaps.addMarker(new MarkerOptions()
+               .position(new LatLng(latitude,longitude))
+               .title(getAddress(latitude,longitude)));
+   }
 }
