@@ -52,7 +52,7 @@ public class RestaurantDataSource extends BaseDataSource {
             //insert song to the "all songs" playlist
             subOrderDataSource.insertSongToPlaylist
                     (
-                            foodDataSource.getPlaylist
+                            foodDataSource.getFood
                                     (
                                             PrefUtils.getLongFromPrefs
                                                     (
@@ -201,7 +201,7 @@ public class RestaurantDataSource extends BaseDataSource {
                     new String[]{String.valueOf(song.getId())});
 
             //delete song from playlists
-            ArrayList<Playlist> playlists = foodDataSource.getAllPlaylists();
+            ArrayList<Playlist> playlists = foodDataSource.getAllFoods();
             for(Playlist playlist : playlists)
             {
                 subOrderDataSource.deleteSongFromPlaylist(playlist, song);

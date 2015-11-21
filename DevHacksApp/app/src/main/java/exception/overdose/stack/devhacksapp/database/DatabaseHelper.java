@@ -23,14 +23,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public static final String COLUMN_ID = "id";
 
+
     /**
-     * playlists table
+     * food table
      */
-    public static final String TABLE_PLAYLISTS_NAME = "playlists";
-    public static final String COLUMN_PLAYLISTS_NAME = "COLUMN_PLAYLISTS_NAME";
-    public static final String COLUMN_PLAYLISTS_ORDER = "COLUMN_PLAYLISTS_ORDER";
-    public static final String COLUMN_PLAYLISTS_SONGS_COUNTER = "COLUMN_PLAYLISTS_SONGS_COUNTER";
-    public static final String COLUMN_PLAYLISTS_BACKGROUND_COLOR = "COLUMN_PLAYLISTS_BACKGROUND_COLOR";
+    public static final String TABLE_FOOD_NAME = "food";
+    public static final String COLUMN_FOOD_NAME = "COLUMN_FOOD_NAME";
+    public static final String COLUMN_FOOD_PRICE = "COLUMN_FOOD_PRICE";
+    public static final String COLUMN_FOOD_DESCRIPTION = "COLUMN_FOOD_DESCRIPTION";
+    public static final String COLUMN_FOOD_RESTAURANTID = "COLUMN_FOOD_RESTAURANTID";
+    public static final String COLUMN_FOOD_CATEGORY = "COLUMN_FOOD_CATEGORY";
 
     /**
      * connections table
@@ -65,12 +67,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         // TODO Auto-generated method stub
         db.execSQL(
-                "create table " + TABLE_PLAYLISTS_NAME + " (" +
+                "create table " + TABLE_FOOD_NAME + " (" +
                         COLUMN_ID + " integer primary key, " +
-                        COLUMN_PLAYLISTS_NAME + " text, " +
-                        COLUMN_PLAYLISTS_ORDER + " integer," +
-                        COLUMN_PLAYLISTS_BACKGROUND_COLOR + " integer," +
-                        COLUMN_PLAYLISTS_SONGS_COUNTER + " integer)"
+                        COLUMN_FOOD_NAME + " text, " +
+                        COLUMN_FOOD_PRICE + " real," +
+                        COLUMN_FOOD_RESTAURANTID + " integer," +
+                        COLUMN_FOOD_CATEGORY+" text, "+
+                        COLUMN_FOOD_DESCRIPTION + " text)"
         );
 
         db.execSQL(
@@ -98,7 +101,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // TODO Auto-generated method stub
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_PLAYLISTS_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_FOOD_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_CONNECTIONS_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_SONGS_NAME);
         onCreate(db);
@@ -110,7 +113,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         try {
             // TODO Auto-generated method stub
-            mydb.execSQL("DROP TABLE IF EXISTS " + TABLE_PLAYLISTS_NAME);
+            mydb.execSQL("DROP TABLE IF EXISTS " + TABLE_FOOD_NAME);
             mydb.execSQL("DROP TABLE IF EXISTS " + TABLE_CONNECTIONS_NAME);
             mydb.execSQL("DROP TABLE IF EXISTS " + TABLE_SONGS_NAME);
 
@@ -122,7 +125,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-//    public long insertPlaylist(Playlist playlist) {
+//    public long insertFood(Playlist playlist) {
 //
 //        if (!mydb.isOpen()) {
 //            initDB();
@@ -130,7 +133,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 //        try {
 //            ContentValues contentValues = getPlaylistContentValues(playlist);
 //
-//            long rowId = mydb.insert(TABLE_PLAYLISTS_NAME, null, contentValues);
+//            long rowId = mydb.insert(TABLE_FOOD_NAME, null, contentValues);
 //
 //            return rowId;
 //        } catch (Exception e) {
@@ -147,7 +150,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 //        try {
 //            ContentValues contentValues = getPlaylistContentValues(playlist);
 //
-//            if (mydb.update(TABLE_PLAYLISTS_NAME, contentValues, COLUMN_ID + " = ? ", new String[]{String.valueOf(playlist.getId())}) <= 0) {
+//            if (mydb.update(TABLE_FOOD_NAME, contentValues, COLUMN_ID + " = ? ", new String[]{String.valueOf(playlist.getId())}) <= 0) {
 //                Log.e("database", playlist.getName() + " not found: " + playlist.getId());
 //                return false;
 //            }
@@ -161,13 +164,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 //        return false;
 //    }
 //
-//    public Playlist getPlaylist(long playlistId) {
+//    public Playlist getFood(long playlistId) {
 //        if (!mydb.isOpen()) {
 //            initDB();
 //        }
 //
 //        try {
-//            Cursor cursor = mydb.query(TABLE_PLAYLISTS_NAME,
+//            Cursor cursor = mydb.query(TABLE_FOOD_NAME,
 //                    null,
 //                    COLUMN_ID + " = ?",
 //                    new String[]{
@@ -176,9 +179,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 //                    null, null, null);
 //
 //            Integer columnIdIndex = cursor.getColumnIndex(COLUMN_ID);
-//            Integer columnPlaylistNameIndex = cursor.getColumnIndex(COLUMN_PLAYLISTS_NAME);
-//            Integer columnPlaylistOrderIndex = cursor.getColumnIndex(COLUMN_PLAYLISTS_ORDER);
-//            Integer columnPlaylistSongsCounterIndex = cursor.getColumnIndex(COLUMN_PLAYLISTS_SONGS_COUNTER);
+//            Integer columnPlaylistNameIndex = cursor.getColumnIndex(COLUMN_FOOD_NAME);
+//            Integer columnPlaylistOrderIndex = cursor.getColumnIndex(COLUMN_FOOD_PRICE);
+//            Integer columnPlaylistSongsCounterIndex = cursor.getColumnIndex(COLUMN_FOOD_DESCRIPTION);
 //
 //            if (cursor.moveToFirst()) {
 //                do {
@@ -206,9 +209,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 //        }
 //
 //        try {
-//            Cursor cursor = mydb.query(TABLE_PLAYLISTS_NAME,
+//            Cursor cursor = mydb.query(TABLE_FOOD_NAME,
 //                    null,
-//                    COLUMN_PLAYLISTS_NAME + " = ?",
+//                    COLUMN_FOOD_NAME + " = ?",
 //                    new String[]{
 //                            playlistName
 //                    },
@@ -233,20 +236,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 //        return -1;
 //    }
 //
-//    public ArrayList<Playlist> getAllPlaylists() {
+//    public ArrayList<Playlist> getAllFoods() {
 //        if (!mydb.isOpen()) {
 //            initDB();
 //        }
 //
 //        ArrayList<Playlist> playlists = new ArrayList<>();
 //        try {
-//            Cursor cursor = mydb.query(TABLE_PLAYLISTS_NAME,
-//                    null, null, null, null, null, COLUMN_PLAYLISTS_ORDER);
+//            Cursor cursor = mydb.query(TABLE_FOOD_NAME,
+//                    null, null, null, null, null, COLUMN_FOOD_PRICE);
 //
 //            Integer columnIdIndex = cursor.getColumnIndex(COLUMN_ID);
-//            Integer columnPlaylistNameIndex = cursor.getColumnIndex(COLUMN_PLAYLISTS_NAME);
-//            Integer columnPlaylistOrderIndex = cursor.getColumnIndex(COLUMN_PLAYLISTS_ORDER);
-//            Integer columnPlaylistSongsCounterIndex = cursor.getColumnIndex(COLUMN_PLAYLISTS_SONGS_COUNTER);
+//            Integer columnPlaylistNameIndex = cursor.getColumnIndex(COLUMN_FOOD_NAME);
+//            Integer columnPlaylistOrderIndex = cursor.getColumnIndex(COLUMN_FOOD_PRICE);
+//            Integer columnPlaylistSongsCounterIndex = cursor.getColumnIndex(COLUMN_FOOD_DESCRIPTION);
 //
 //            if (cursor.moveToFirst()) {
 //                do {
@@ -271,9 +274,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 //        ContentValues contentValues = new ContentValues();
 //
 ////        contentValues.put(COLUMN_ID, playlist.getId());
-//        contentValues.put(COLUMN_PLAYLISTS_NAME, playlist.getName());
-//        contentValues.put(COLUMN_PLAYLISTS_ORDER, playlist.getOrder());
-//        contentValues.put(COLUMN_PLAYLISTS_SONGS_COUNTER, playlist.getSongsCounter());
+//        contentValues.put(COLUMN_FOOD_NAME, playlist.getName());
+//        contentValues.put(COLUMN_FOOD_PRICE, playlist.getOrder());
+//        contentValues.put(COLUMN_FOOD_DESCRIPTION, playlist.getSongsCounter());
 //
 //        return contentValues;
 //    }
@@ -283,7 +286,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 //            initDB();
 //        }
 //        try {
-//            mydb.delete(TABLE_PLAYLISTS_NAME,
+//            mydb.delete(TABLE_FOOD_NAME,
 //                    COLUMN_ID + " = ? ",
 //                    new String[]{String.valueOf(playlist.getId())});
 //
@@ -384,7 +387,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 //
 //            song.setId(rowId);
 //            //insert song to the "all songs" playlist
-//            insertSongToPlaylist(getPlaylist(PrefUtils.getLongFromPrefs(context, Constants.PREFS_ALL_SONGS_PLAYLIST_ID, 0)), song, 0);
+//            insertSongToPlaylist(getFood(PrefUtils.getLongFromPrefs(context, Constants.PREFS_ALL_SONGS_PLAYLIST_ID, 0)), song, 0);
 //
 //            return rowId;
 //        } catch (Exception e) {
@@ -558,7 +561,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 //                    new String[]{String.valueOf(song.getId())});
 //
 //            //delete song from playlists
-//            ArrayList<Playlist> playlists = getAllPlaylists();
+//            ArrayList<Playlist> playlists = getAllFoods();
 //            for(Playlist playlist : playlists)
 //            {
 //                deleteSongFromPlaylist(playlist, song);
@@ -574,7 +577,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private void addAllSongsPlaylist()
     {
         FoodDataSource foodDataSource = new FoodDataSource(context, mydb);
-        long allSongsId = foodDataSource.insertPlaylist(new Playlist(0, "All Songs", 0, 0, context.getResources().getColor(R.color.colorAccentDark)));
+        long allSongsId = foodDataSource.insertFood(new Playlist(0, "All Songs", 0, 0, context.getResources().getColor(R.color.colorAccentDark)));
         PrefUtils.setLongToPrefs(context, Constants.PREFS_ALL_SONGS_PLAYLIST_ID, allSongsId);
         foodDataSource.closeHelper();
     }

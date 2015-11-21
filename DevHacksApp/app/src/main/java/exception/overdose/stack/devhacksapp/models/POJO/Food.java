@@ -12,6 +12,15 @@ public class Food {
     private String Description;
     private String Category;
 
+    public Food(long id, String name, float price, long restaurantID, String category, String description) {
+        Id = id;
+        Name = name;
+        Price = price;
+        RestaurantID = restaurantID;
+        Category = category;
+        Description = description;
+    }
+
     public long getId() {
         return Id;
     }
