@@ -13,5 +13,7 @@ public class Constants {
     public static String LOCATION="LOCATION";
         public static final String EXTRA_EVENT_ID = "EXTRA_EVENT_ID";
         public static final String PREF_USER_ID = "PREF_USER_ID";
+    public static final String PREF_USER_LOCATION_LATITUDE ="PREF_USER_LOCATION_LATITUDE";
+    public static final String PREF_USER_LOCATION_LONGITUDE ="PREF_USER_LOCATION_LONGITUDE";
 
 }
