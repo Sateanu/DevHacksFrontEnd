@@ -12,6 +12,25 @@ public class Restaurant {
     private float Latitude;
     private String Location;
 
+    public Restaurant()
+    {
+
+    }
+
+    public Restaurant(String Name, String Specific, float Longitude, float Latitude, String Location)
+    {
+        this.Name = Name;
+        this.Specific = Specific;
+        this.Longitude = Longitude;
+        this.Latitude = Latitude;
+        this.Location = Location;
+    }
+
+    public Restaurant(long Id, String Name, String Specific, float Longitude, float Latitude, String Location)
+    {
+        this(Name, Specific, Longitude, Latitude, Location);
+        this.Id = Id;
+    }
 
     public long getId() {
         return Id;

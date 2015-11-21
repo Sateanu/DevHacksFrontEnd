@@ -12,58 +12,36 @@ import net.indyvision.metronome.utils.PrefUtils;
 
 import java.util.ArrayList;
 
+import exception.overdose.stack.devhacksapp.models.POJO.Restaurant;
+
 /**
  * Created by alexbuicescu on 17.09.2015.
  */
 public class RestaurantDataSource extends BaseDataSource {
 
-    private FoodDataSource foodDataSource;
-    private SubOrderDataSource subOrderDataSource;
-
     public RestaurantDataSource(Context context) {
         super(context);
-        tableName = DatabaseHelper.TABLE_SONGS_NAME;
-
-        foodDataSource = new FoodDataSource(context);
-        foodDataSource.open();
-        subOrderDataSource = new SubOrderDataSource(context);
-        subOrderDataSource.open();
+        tableName = DatabaseHelper.TABLE_RESTAURANT_NAME;
     }
 
     @Override
     public void closeHelper()
     {
         getDbHelper().close();
-        foodDataSource.closeHelper();
-        subOrderDataSource.closeHelper();
     }
 
-    public long insertSong(Song song) {
+    public long insertRestaurant(Restaurant restaurant) {
 
         if (!getDatabase().isOpen()) {
             open();
         }
         try {
-            ContentValues contentValues = getSongContentValues(song);
+            ContentValues contentValues = getRestaurantContentValues(restaurant);
 
             long rowId = getDatabase().insert(tableName, null, contentValues);
 
-            song.setId(rowId);
+            restaurant.setId(rowId);
             //insert song to the "all songs" playlist
-            subOrderDataSource.insertSongToPlaylist
-                    (
-                            foodDataSource.getPlaylist
-                                    (
-                                            PrefUtils.getLongFromPrefs
-                                                    (
-                                                            getContext(),
-                                                            Constants.PREFS_ALL_SONGS_PLAYLIST_ID,
-                                                            0
-                                                    )
-                                    ),
-                            song,
-                            0
-                    );
 
             return rowId;
         } catch (Exception e) {
@@ -73,23 +51,23 @@ public class RestaurantDataSource extends BaseDataSource {
         return -1;
     }
 
-    public Song getSong(long songId) {
+    public Restaurant getRestaurant(long restaurantId) {
         if (!getDatabase().isOpen()) {
             open();
         }
 
-        Song song = null;
+        Restaurant restaurant = null;
         try {
             Cursor cursor = getDatabase().query(tableName,
                     null,
                     DatabaseHelper.COLUMN_ID + " = ?",
                     new String[]{
-                            String.valueOf(songId)
+                            String.valueOf(restaurantId)
                     },
                     null, null, null);
 
             if (cursor.moveToFirst()) {
-                song = cursorToSong(cursor);
+                restaurant = cursorToRestaurant(cursor);
             }
             cursor.close();
         } catch (Exception e) {
@@ -97,22 +75,22 @@ public class RestaurantDataSource extends BaseDataSource {
             closeDatabase();
         }
 
-        return song;
+        return restaurant;
     }
 
-    public ArrayList<Song> getAllSongs() {
+    public ArrayList<Restaurant> getAllRestaurants() {
         if (!getDatabase().isOpen()) {
             open();
         }
 
-        ArrayList<Song> songs = new ArrayList<>();
+        ArrayList<Restaurant> songs = new ArrayList<>();
         try {
             Cursor cursor = getDatabase().query(tableName,
                     null, null, null, null, null, null);
 
             if (cursor.moveToFirst()) {
                 do {
-                    songs.add(cursorToSong(cursor));
+                    songs.add(cursorToRestaurant(cursor));
                 } while (cursor.moveToNext());
             }
 
@@ -126,111 +104,111 @@ public class RestaurantDataSource extends BaseDataSource {
         return songs;
     }
 
-    public ArrayList<Song> getAllSongsFromPlaylist(long playlistId) {
-        if (!getDatabase().isOpen()) {
-            open();
-        }
+//    public ArrayList<Song> getAllSongsFromPlaylist(long playlistId) {
+//        if (!getDatabase().isOpen()) {
+//            open();
+//        }
+//
+//        ArrayList<Song> songs = new ArrayList<>();
+//        try {
+//            final String MY_QUERY = "SELECT songs.* FROM " + tableName + " songs " +
+//                    "JOIN " + DatabaseHelper.TABLE_CONNECTIONS_NAME + " connections " +
+//                    "ON songs." + DatabaseHelper.COLUMN_ID + "=connections." + DatabaseHelper.COLUMN_CONNECTIONS_SONG_ID + " " +
+//                    "WHERE connections." + DatabaseHelper.COLUMN_CONNECTIONS_PLAYLISTS_ID + "=? " +
+//                    "ORDER BY connections." + DatabaseHelper.COLUMN_CONNECTIONS_ORDER_IN_PLAYLIST;
+//            Cursor cursor = getDatabase().rawQuery(MY_QUERY, new String[]{String.valueOf(playlistId)});
+//
+//            if (cursor.moveToFirst()) {
+//                int i = 0;
+//                do {
+//                    songs.add(cursorToSong(cursor, i));
+//                    i++;
+//                } while (cursor.moveToNext());
+//            }
+//
+//            cursor.close();
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            closeDatabase();
+//        }
+//
+//        return songs;
+//    }
 
-        ArrayList<Song> songs = new ArrayList<>();
-        try {
-            final String MY_QUERY = "SELECT songs.* FROM " + tableName + " songs " +
-                    "JOIN " + DatabaseHelper.TABLE_CONNECTIONS_NAME + " connections " +
-                    "ON songs." + DatabaseHelper.COLUMN_ID + "=connections." + DatabaseHelper.COLUMN_CONNECTIONS_SONG_ID + " " +
-                    "WHERE connections." + DatabaseHelper.COLUMN_CONNECTIONS_PLAYLISTS_ID + "=? " +
-                    "ORDER BY connections." + DatabaseHelper.COLUMN_CONNECTIONS_ORDER_IN_PLAYLIST;
-            Cursor cursor = getDatabase().rawQuery(MY_QUERY, new String[]{String.valueOf(playlistId)});
+//    public boolean updateSong(Song song) {
+//        if (!getDatabase().isOpen()) {
+//            open();
+//        }
+//        try {
+//            ContentValues contentValues = getRestaurantContentValues(song);
+//
+//            if (getDatabase().update(tableName, contentValues, DatabaseHelper.COLUMN_ID + " = ? ", new String[]{String.valueOf(song.getId())}) <= 0) {
+//                Log.e("database", song.getName() + " not found: " + song.getId());
+//                return false;
+//            }
+//
+//            return true;
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            closeDatabase();
+//        }
+//        return false;
+//    }
 
-            if (cursor.moveToFirst()) {
-                int i = 0;
-                do {
-                    songs.add(cursorToSong(cursor, i));
-                    i++;
-                } while (cursor.moveToNext());
-            }
-
-            cursor.close();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            closeDatabase();
-        }
-
-        return songs;
-    }
-
-    public boolean updateSong(Song song) {
-        if (!getDatabase().isOpen()) {
-            open();
-        }
-        try {
-            ContentValues contentValues = getSongContentValues(song);
-
-            if (getDatabase().update(tableName, contentValues, DatabaseHelper.COLUMN_ID + " = ? ", new String[]{String.valueOf(song.getId())}) <= 0) {
-                Log.e("database", song.getName() + " not found: " + song.getId());
-                return false;
-            }
-
-            return true;
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            closeDatabase();
-        }
-        return false;
-    }
-
-    private ContentValues getSongContentValues(Song song) {
+    private ContentValues getRestaurantContentValues(Restaurant restaurant) {
         ContentValues contentValues = new ContentValues();
 
-        contentValues.put(DatabaseHelper.COLUMN_SONGS_SONG_NAME, song.getName());
-        contentValues.put(DatabaseHelper.COLUMN_SONGS_BEATS_PER_MINUTE, song.getBeatsPerMinute());
-        contentValues.put(DatabaseHelper.COLUMN_SONGS_LENGTH, song.getLength());
-        contentValues.put(DatabaseHelper.COLUMN_SONGS_NO_OF_FIRST_BEATS, song.getNoOfFirstBeats());
-        contentValues.put(DatabaseHelper.COLUMN_SONGS_NO_OF_SECOND_BEATS, song.getNoOfSecondBeats());
+        contentValues.put(DatabaseHelper.COLUMN_RESTAURANT_NAME, restaurant.getName());
+        contentValues.put(DatabaseHelper.COLUMN_RESTAURANT_SPECIFIC, restaurant.getSpecific());
+        contentValues.put(DatabaseHelper.COLUMN_RESTAURANT_LOCATION, restaurant.getLocation());
+        contentValues.put(DatabaseHelper.COLUMN_RESTAURANT_LONGITUDE, restaurant.getLongitude());
+        contentValues.put(DatabaseHelper.COLUMN_RESTAURANT_LATITUDE, restaurant.getLatitude());
 
         return contentValues;
     }
 
-    public Integer deleteSong(Song song) {
-        if (!getDatabase().isOpen()) {
-            open();
-        }
-        try {
-            getDatabase().delete(tableName,
-                    DatabaseHelper.COLUMN_ID + " = ? ",
-                    new String[]{String.valueOf(song.getId())});
+//    public Integer deleteSong(Song song) {
+//        if (!getDatabase().isOpen()) {
+//            open();
+//        }
+//        try {
+//            getDatabase().delete(tableName,
+//                    DatabaseHelper.COLUMN_ID + " = ? ",
+//                    new String[]{String.valueOf(song.getId())});
+//
+//            //delete song from playlists
+//            ArrayList<Playlist> playlists = foodDataSource.getAllPlaylists();
+//            for(Playlist playlist : playlists)
+//            {
+//                subOrderDataSource.deleteSongFromPlaylist(playlist, song);
+//            }
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            closeDatabase();
+//        }
+//        return -1;
+//    }
 
-            //delete song from playlists
-            ArrayList<Playlist> playlists = foodDataSource.getAllPlaylists();
-            for(Playlist playlist : playlists)
-            {
-                subOrderDataSource.deleteSongFromPlaylist(playlist, song);
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            closeDatabase();
-        }
-        return -1;
-    }
-
-    public ArrayList<Song> searchSong(String query)
+    public ArrayList<Restaurant> searchRestaurant(String specific)
     {
         if (!getDatabase().isOpen()) {
             open();
         }
 
-        ArrayList<Song> songs = new ArrayList<>();
+        ArrayList<Restaurant> songs = new ArrayList<>();
         try {
             final String MY_QUERY = "SELECT * FROM " + tableName + " songs " +
-                    "WHERE songs." + DatabaseHelper.COLUMN_SONGS_SONG_NAME + " LIKE ?" +
-                    "ORDER BY songs." + DatabaseHelper.COLUMN_SONGS_SONG_NAME;
-            Cursor cursor = getDatabase().rawQuery(MY_QUERY, new String[]{"%" + query + "%"});
+                    "WHERE songs." + DatabaseHelper.COLUMN_RESTAURANT_SPECIFIC + " LIKE ?" +
+                    "ORDER BY songs." + DatabaseHelper.COLUMN_RESTAURANT_NAME;
+            Cursor cursor = getDatabase().rawQuery(MY_QUERY, new String[]{"%" + specific + "%"});
 
             if (cursor.moveToFirst()) {
                 int i = 0;
                 do {
-                    songs.add(cursorToSong(cursor, i));
+                    songs.add(cursorToRestaurant(cursor, i));
                     i++;
                 } while (cursor.moveToNext());
             }
@@ -244,12 +222,12 @@ public class RestaurantDataSource extends BaseDataSource {
         return songs;
     }
 
-    private Song cursorToSong(Cursor cursor)
+    private Restaurant cursorToRestaurant(Cursor cursor)
     {
-        return cursorToSong(cursor, 0);
+        return cursorToRestaurant(cursor, 0);
     }
 
-    private Song cursorToSong(Cursor cursor, int orderInPlaylist)
+    private Restaurant cursorToRestaurant(Cursor cursor, int orderInPlaylist)
     {
         Integer columnIdIndex = cursor.getColumnIndex(DatabaseHelper.COLUMN_ID);
         Integer columnSongNameIndex = cursor.getColumnIndex(DatabaseHelper.COLUMN_SONGS_SONG_NAME);
@@ -265,6 +243,6 @@ public class RestaurantDataSource extends BaseDataSource {
         int noFirstBeats = cursor.getInt(columnNoFirstBeats);
         int noSecondBeats = cursor.getInt(columnNoSecondBeats);
 
-        return new Song(id, beatsPerMinute, length, songName, orderInPlaylist, noFirstBeats, noSecondBeats);
+        return new Restaurant(id, beatsPerMinute, length, songName, orderInPlaylist, noFirstBeats, noSecondBeats);
     }
 }

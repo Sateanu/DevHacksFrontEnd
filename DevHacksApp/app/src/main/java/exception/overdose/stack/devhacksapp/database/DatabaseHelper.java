@@ -5,11 +5,6 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import net.indyvision.metronome.R;
-import net.indyvision.metronome.pojo.Playlist;
-import net.indyvision.metronome.utils.Constants;
-import net.indyvision.metronome.utils.PrefUtils;
-
 
 /**
  * Created by Alexandru on 21-Mar-15.
@@ -33,12 +28,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_PLAYLISTS_BACKGROUND_COLOR = "COLUMN_PLAYLISTS_BACKGROUND_COLOR";
 
     /**
-     * connections table
+     * restaurant table
      */
-    public static final String TABLE_CONNECTIONS_NAME = "connections";
-    public static final String COLUMN_CONNECTIONS_PLAYLISTS_ID = "COLUMN_PLAYLISTS_ID";
-    public static final String COLUMN_CONNECTIONS_SONG_ID = "COLUMN_SONG_ID";
-    public static final String COLUMN_CONNECTIONS_ORDER_IN_PLAYLIST = "COLUMN_CONNECTIONS_ORDER_IN_PLAYLIST";
+    public static final String TABLE_RESTAURANT_NAME = "restaurant";
+    public static final String COLUMN_RESTAURANT_NAME = "COLUMN_RESTAURANT_NAME";
+    public static final String COLUMN_RESTAURANT_SPECIFIC = "COLUMN_RESTAURANT_SPECIFIC";
+    public static final String COLUMN_RESTAURANT_LONGITUDE = "COLUMN_RESTAURANT_LONGITUDE";
+    public static final String COLUMN_RESTAURANT_LATITUDE = "COLUMN_RESTAURANT_LATITUDE";
+    public static final String COLUMN_RESTAURANT_LOCATION = "COLUMN_RESTAURANT_LOCATION";
 
     /**
      * songs table
@@ -74,11 +71,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         );
 
         db.execSQL(
-                "create table " + TABLE_CONNECTIONS_NAME + " (" +
+                "create table " + TABLE_RESTAURANT_NAME + " (" +
                         COLUMN_ID + " integer primary key, " +
-                        COLUMN_CONNECTIONS_PLAYLISTS_ID + " integer," +
-                        COLUMN_CONNECTIONS_ORDER_IN_PLAYLIST + " integer," +
-                        COLUMN_CONNECTIONS_SONG_ID + " integer)"
+                        COLUMN_RESTAURANT_NAME + " text, " +
+                        COLUMN_RESTAURANT_SPECIFIC + " text, " +
+                        COLUMN_RESTAURANT_LOCATION + " text, " +
+                        COLUMN_RESTAURANT_LONGITUDE + " real, " +
+                        COLUMN_RESTAURANT_LATITUDE + " real)"
         );
 
         db.execSQL(
@@ -92,14 +91,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         );
 
         mydb = db;
-        addAllSongsPlaylist();
+//        addAllSongsPlaylist();
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // TODO Auto-generated method stub
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_PLAYLISTS_NAME);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_CONNECTIONS_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_RESTAURANT_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_SONGS_NAME);
         onCreate(db);
     }
@@ -111,7 +110,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         try {
             // TODO Auto-generated method stub
             mydb.execSQL("DROP TABLE IF EXISTS " + TABLE_PLAYLISTS_NAME);
-            mydb.execSQL("DROP TABLE IF EXISTS " + TABLE_CONNECTIONS_NAME);
+            mydb.execSQL("DROP TABLE IF EXISTS " + TABLE_RESTAURANT_NAME);
             mydb.execSQL("DROP TABLE IF EXISTS " + TABLE_SONGS_NAME);
 
             onCreate(mydb);
@@ -571,11 +570,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 //        return -1;
 //    }
 
-    private void addAllSongsPlaylist()
-    {
-        FoodDataSource foodDataSource = new FoodDataSource(context, mydb);
-        long allSongsId = foodDataSource.insertPlaylist(new Playlist(0, "All Songs", 0, 0, context.getResources().getColor(R.color.colorAccentDark)));
-        PrefUtils.setLongToPrefs(context, Constants.PREFS_ALL_SONGS_PLAYLIST_ID, allSongsId);
-        foodDataSource.closeHelper();
-    }
+//    private void addAllSongsPlaylist()
+//    {
+//        FoodDataSource foodDataSource = new FoodDataSource(context, mydb);
+//        long allSongsId = foodDataSource.insertPlaylist(new Playlist(0, "All Songs", 0, 0, context.getResources().getColor(R.color.colorAccentDark)));
+//        PrefUtils.setLongToPrefs(context, Constants.PREFS_ALL_SONGS_PLAYLIST_ID, allSongsId);
+//        foodDataSource.closeHelper();
+//    }
 }
