@@ -4,11 +4,16 @@ import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.GoogleMap;
@@ -30,7 +35,7 @@ import exception.overdose.stack.devhacksapp.utils.ViewUtils;
 /**
  * Created by sony on 03/10/2015.
  */
-public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMapClickListener,OnMapReadyCallback {
+public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMapClickListener, OnMapReadyCallback {
 
     /**
      * The google map
@@ -40,7 +45,7 @@ public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMapCl
     /**
      * The info about the location
      */
-    private String location="";
+    private String location = "";
     /**
      * The coordinates
      */
@@ -60,12 +65,14 @@ public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMapCl
         this.setSupportActionBar(toolbar);
         ViewUtils.setActionBarTitle(this, this.getResources().getString(R.string.app_name));
     }
+
     private void initLayout() {
-        MapFragment mapFragment=((MapFragment) getFragmentManager().findFragmentById(R.id.map));
+        MapFragment mapFragment = ((MapFragment) getFragmentManager().findFragmentById(R.id.map));
         googleMaps = mapFragment.getMap();
         googleMaps.setOnMapClickListener(this);
         mapFragment.getMapAsync(this);
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -94,25 +101,27 @@ public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMapCl
 
     private void onSaveButtonClicked() {
         Intent intent = new Intent();
-        intent.putExtra(Constants.LOCATION,location);
-        intent.putExtra(Constants.COORDINATES,coordinates);
+        intent.putExtra(Constants.LOCATION, location);
+        intent.putExtra(Constants.COORDINATES, coordinates);
         setResult(RESULT_OK, intent);
         finish();
     }
 
     @Override
     public void onMapClick(LatLng latLng) {
-        MarkerOptions options=new MarkerOptions()
+        MarkerOptions options = new MarkerOptions()
                 .anchor(0.5f, 0.5f)
                 .title(getAddress(latLng.latitude, latLng.longitude));
         options.position(latLng);
         googleMaps.clear();
         googleMaps.addMarker(options);
-        location=getAddress(latLng.latitude, latLng.longitude);
-        coordinates=latLng.latitude+" "+latLng.longitude;
+        location = getAddress(latLng.latitude, latLng.longitude);
+        coordinates = latLng.latitude + " " + latLng.longitude;
     }
+
     /**
      * Get address from given coordinates
+     *
      * @param lat
      * @param lng
      * @return
@@ -138,12 +147,15 @@ public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMapCl
             return "";
         }
     }
-   @Override
-  public void onMapReady(GoogleMap googleMap) {
-       double latitude=Double.parseDouble(PrefUtils.getStringFromPrefs(this, Constants.PREF_USER_LOCATION_LATITUDE, "0"));
-       double longitude=Double.parseDouble(PrefUtils.getStringFromPrefs(this, Constants.PREF_USER_LOCATION_LONGITUDE, "0"));
-       googleMaps.addMarker(new MarkerOptions()
-               .position(new LatLng(latitude,longitude))
-               .title(getAddress(latitude,longitude)));
-   }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        double latitude = Double.parseDouble(PrefUtils.getStringFromPrefs(this, Constants.PREF_USER_LOCATION_LATITUDE, "0"));
+        double longitude = Double.parseDouble(PrefUtils.getStringFromPrefs(this, Constants.PREF_USER_LOCATION_LONGITUDE, "0"));
+        if (!(latitude == 0 && longitude == 0)){
+            googleMaps.addMarker(new MarkerOptions()
+                    .position(new LatLng(latitude, longitude))
+                    .title(getAddress(latitude, longitude)));
+        }
+    }
 }
