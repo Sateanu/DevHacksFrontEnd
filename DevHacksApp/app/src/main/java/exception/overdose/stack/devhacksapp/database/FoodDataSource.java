@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;

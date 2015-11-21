@@ -39,16 +39,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_RESTAURANT_LATITUDE = "COLUMN_RESTAURANT_LATITUDE";
     public static final String COLUMN_RESTAURANT_LOCATION = "COLUMN_RESTAURANT_LOCATION";
 
-    /**
-     * songs table
-     */
-    public static final String TABLE_SONGS_NAME = "songs";
-    public static final String COLUMN_SONGS_SONG_NAME = "COLUMN_SONGS_SONG_NAME";
-    public static final String COLUMN_SONGS_LENGTH = "COLUMN_SONGS_LENGTH";
-    public static final String COLUMN_SONGS_BEATS_PER_MINUTE = "COLUMN_SONGS_BEATS_PER_MINUTE";
-    public static final String COLUMN_SONGS_NO_OF_FIRST_BEATS = "COLUMN_SONGS_NO_OF_FIRST_BEATS";
-    public static final String COLUMN_SONGS_NO_OF_SECOND_BEATS = "COLUMN_SONGS_NO_OF_SECOND_BEATS";
-
+  
     /**
      * orders table
      */
@@ -57,6 +48,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_ORDER_RESTAURANTID="COLUMN_ORDER_RESTAURANTID";
     public static final String COLUMN_ORDER_PRICE="COLUMN_ORDER_PRICE";
     public static final String COLUMN_ORDER_DISCOUNT="COLUMN_ORDER_DISCOUNT";
+
+    
+    /**
+     * suborders table
+     */
+    public static final String TABLE_SUBORDER_NAME = "suborder";
+    public static final String COLUMN_SUBORDER_ORDER_ID = "COLUMN_SUBORDER_ORDER_ID";
+    public static final String COLUMN_SUBORDER_FOOD_ID = "COLUMN_SUBORDER_FOOD_ID";
+    public static final String COLUMN_SUBORDER_QUANTITY = "COLUMN_SUBORDER_QUANTITY";
+
 
     private final Context context;
 
@@ -96,13 +97,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         );
 
         db.execSQL(
-                "create table " + TABLE_SONGS_NAME + " (" +
+                "create table " + TABLE_SUBORDER_NAME + " (" +
                         COLUMN_ID + " integer primary key, " +
-                        COLUMN_SONGS_BEATS_PER_MINUTE + " integer," +
-                        COLUMN_SONGS_LENGTH + " integer," +
-                        COLUMN_SONGS_NO_OF_FIRST_BEATS + " integer," +
-                        COLUMN_SONGS_NO_OF_SECOND_BEATS + " integer," +
-                        COLUMN_SONGS_SONG_NAME + " text)"
+                        COLUMN_SUBORDER_FOOD_ID + " integer," +
+                        COLUMN_SUBORDER_ORDER_ID + " integer," +
+                        COLUMN_SUBORDER_QUANTITY + " integer)"
         );
 
         db.execSQL(
@@ -123,8 +122,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         // TODO Auto-generated method stub
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_RESTAURANT_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_FOOD_NAME);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_SONGS_NAME);
+
+        
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_ORDER_NAME);
+
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_SUBORDER_NAME);
+
         onCreate(db);
     }
 
@@ -136,8 +139,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             // TODO Auto-generated method stub
             mydb.execSQL("DROP TABLE IF EXISTS " + TABLE_RESTAURANT_NAME);
             mydb.execSQL("DROP TABLE IF EXISTS " + TABLE_FOOD_NAME);
-            mydb.execSQL("DROP TABLE IF EXISTS " + TABLE_SONGS_NAME);
+
+
             mydb.execSQL("DROP TABLE IF EXISTS " + TABLE_ORDER_NAME);
+
+            mydb.execSQL("DROP TABLE IF EXISTS " + TABLE_SUBORDER_NAME);
+
 
             onCreate(mydb);
         }
