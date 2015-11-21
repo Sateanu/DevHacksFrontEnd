@@ -573,9 +573,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private void addAllSongsPlaylist()
     {
-        PlaylistDataSource playlistDataSource = new PlaylistDataSource(context, mydb);
-        long allSongsId = playlistDataSource.insertPlaylist(new Playlist(0, "All Songs", 0, 0, context.getResources().getColor(R.color.colorAccentDark)));
+        FoodDataSource foodDataSource = new FoodDataSource(context, mydb);
+        long allSongsId = foodDataSource.insertPlaylist(new Playlist(0, "All Songs", 0, 0, context.getResources().getColor(R.color.colorAccentDark)));
         PrefUtils.setLongToPrefs(context, Constants.PREFS_ALL_SONGS_PLAYLIST_ID, allSongsId);
-        playlistDataSource.closeHelper();
+        foodDataSource.closeHelper();
     }
 }

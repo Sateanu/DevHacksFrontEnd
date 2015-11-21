@@ -15,27 +15,27 @@ import java.util.ArrayList;
 /**
  * Created by alexbuicescu on 17.09.2015.
  */
-public class SongDataSource extends BaseDataSource {
+public class RestaurantDataSource extends BaseDataSource {
 
-    private PlaylistDataSource playlistDataSource;
-    private ConnectionsDataSource connectionsDataSource;
+    private FoodDataSource foodDataSource;
+    private SubOrderDataSource subOrderDataSource;
 
-    public SongDataSource(Context context) {
+    public RestaurantDataSource(Context context) {
         super(context);
         tableName = DatabaseHelper.TABLE_SONGS_NAME;
 
-        playlistDataSource = new PlaylistDataSource(context);
-        playlistDataSource.open();
-        connectionsDataSource = new ConnectionsDataSource(context);
-        connectionsDataSource.open();
+        foodDataSource = new FoodDataSource(context);
+        foodDataSource.open();
+        subOrderDataSource = new SubOrderDataSource(context);
+        subOrderDataSource.open();
     }
 
     @Override
     public void closeHelper()
     {
         getDbHelper().close();
-        playlistDataSource.closeHelper();
-        connectionsDataSource.closeHelper();
+        foodDataSource.closeHelper();
+        subOrderDataSource.closeHelper();
     }
 
     public long insertSong(Song song) {
@@ -50,9 +50,9 @@ public class SongDataSource extends BaseDataSource {
 
             song.setId(rowId);
             //insert song to the "all songs" playlist
-            connectionsDataSource.insertSongToPlaylist
+            subOrderDataSource.insertSongToPlaylist
                     (
-                            playlistDataSource.getPlaylist
+                            foodDataSource.getPlaylist
                                     (
                                             PrefUtils.getLongFromPrefs
                                                     (
@@ -201,10 +201,10 @@ public class SongDataSource extends BaseDataSource {
                     new String[]{String.valueOf(song.getId())});
 
             //delete song from playlists
-            ArrayList<Playlist> playlists = playlistDataSource.getAllPlaylists();
+            ArrayList<Playlist> playlists = foodDataSource.getAllPlaylists();
             for(Playlist playlist : playlists)
             {
-                connectionsDataSource.deleteSongFromPlaylist(playlist, song);
+                subOrderDataSource.deleteSongFromPlaylist(playlist, song);
             }
 
         } catch (Exception e) {

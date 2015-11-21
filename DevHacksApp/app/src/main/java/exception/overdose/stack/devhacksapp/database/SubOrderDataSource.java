@@ -14,27 +14,27 @@ import java.util.ArrayList;
 /**
  * Created by alexbuicescu on 17.09.2015.
  */
-public class ConnectionsDataSource extends BaseDataSource {
+public class SubOrderDataSource extends BaseDataSource {
     private String[] allColumns = {DatabaseHelper.COLUMN_ID,
             DatabaseHelper.COLUMN_PLAYLISTS_NAME,
             DatabaseHelper.COLUMN_PLAYLISTS_ORDER,
             DatabaseHelper.COLUMN_PLAYLISTS_SONGS_COUNTER,
     };
 
-    private PlaylistDataSource playlistDataSource;
+    private FoodDataSource foodDataSource;
 
-    public ConnectionsDataSource(Context context) {
+    public SubOrderDataSource(Context context) {
         super(context);
         tableName = DatabaseHelper.TABLE_CONNECTIONS_NAME;
-        playlistDataSource = new PlaylistDataSource(context);
-        playlistDataSource.open();
+        foodDataSource = new FoodDataSource(context);
+        foodDataSource.open();
     }
 
     @Override
     public void closeHelper()
     {
         getDbHelper().close();
-        playlistDataSource.closeHelper();
+        foodDataSource.closeHelper();
     }
 
     public long insertSongToPlaylist(Playlist playlist, Song song, int orderInPlaylist) {
@@ -49,7 +49,7 @@ public class ConnectionsDataSource extends BaseDataSource {
             rowId = getDatabase().insert(tableName, null, contentValues);
 
             playlist.setSongsCounter(playlist.getSongsCounter() + 1);
-            playlistDataSource.updatePlaylist(playlist);
+            foodDataSource.updatePlaylist(playlist);
 
             return rowId;
         } catch (Exception e) {
@@ -131,7 +131,7 @@ public class ConnectionsDataSource extends BaseDataSource {
 
             if(rows > 0) {
                 playlist.setSongsCounter(playlist.getSongsCounter() - 1);
-                playlistDataSource.updatePlaylist(playlist);
+                foodDataSource.updatePlaylist(playlist);
             }
 
         } catch (Exception e) {

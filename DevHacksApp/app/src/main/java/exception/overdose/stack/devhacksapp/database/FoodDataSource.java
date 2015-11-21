@@ -13,7 +13,7 @@ import java.util.ArrayList;
 /**
  * Created by alexbuicescu on 17.09.2015.
  */
-public class PlaylistDataSource extends BaseDataSource {
+public class FoodDataSource extends BaseDataSource {
 
     private String[] allColumns = {DatabaseHelper.COLUMN_ID,
             DatabaseHelper.COLUMN_PLAYLISTS_NAME,
@@ -22,12 +22,12 @@ public class PlaylistDataSource extends BaseDataSource {
             DatabaseHelper.COLUMN_PLAYLISTS_BACKGROUND_COLOR,
     };
 
-    public PlaylistDataSource(Context context) {
+    public FoodDataSource(Context context) {
         super(context);
         tableName = DatabaseHelper.TABLE_PLAYLISTS_NAME;
     }
 
-    public PlaylistDataSource(Context context, SQLiteDatabase database) {
+    public FoodDataSource(Context context, SQLiteDatabase database) {
         super(context);
         tableName = DatabaseHelper.TABLE_PLAYLISTS_NAME;
         this.setDatabase(database);
@@ -177,10 +177,10 @@ public class PlaylistDataSource extends BaseDataSource {
                     DatabaseHelper.COLUMN_ID + " = ? ",
                     new String[]{String.valueOf(playlistId)});
 
-            ConnectionsDataSource connectionsDataSource = new ConnectionsDataSource(getContext());
-            connectionsDataSource.open();
-            connectionsDataSource.deletePlaylist(playlistId);
-            connectionsDataSource.closeHelper();
+            SubOrderDataSource subOrderDataSource = new SubOrderDataSource(getContext());
+            subOrderDataSource.open();
+            subOrderDataSource.deletePlaylist(playlistId);
+            subOrderDataSource.closeHelper();
 
         } catch (Exception e) {
             e.printStackTrace();
