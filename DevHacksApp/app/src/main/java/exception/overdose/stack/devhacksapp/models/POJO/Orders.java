@@ -11,6 +11,17 @@ public class Orders {
     private float Price;
     private int Discount;
 
+    public Orders(long id, long time, long restaurantID, float price, int discount) {
+        Id = id;
+        Time = time;
+        RestaurantID = restaurantID;
+        Price = price;
+        Discount = discount;
+    }
+
+    public Orders() {
+    }
+
     public long getId() {
         return Id;
     }

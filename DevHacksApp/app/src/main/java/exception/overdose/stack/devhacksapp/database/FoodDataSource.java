@@ -5,11 +5,13 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import net.indyvision.metronome.pojo.Playlist;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 import exception.overdose.stack.devhacksapp.models.POJO.Food;
+import exception.overdose.stack.devhacksapp.models.POJO.Restaurant;
 
 /**
  * Created by alexbuicescu on 17.09.2015.
@@ -207,6 +209,41 @@ public class FoodDataSource extends BaseDataSource {
         String foodCategory = cursor.getString(columnFoodCategory);
         String foodDescription = cursor.getString(columnFoodDescription);
 
-        return new Food(id, foodName, foodPrice, foodRestaurantId, foodCategory,foodDescription);
+        return new Food(id, foodName, foodPrice, foodRestaurantId, foodCategory, foodDescription);
     }
-}
+
+
+    private ArrayList<Restaurant> getRestaurantsByFoodCategory(String foodCategory) {
+        if (!getDatabase().isOpen()) {
+            open();
+        }
+        ArrayList<Restaurant> restaurants=new ArrayList<>();
+        Set<Long> restaurantIds = new HashSet<>();
+        try {
+            Cursor cursor = getDatabase().query(tableName,
+                    null, DatabaseHelper.COLUMN_FOOD_CATEGORY + " = ?", new String[]{
+                            foodCategory.toLowerCase()
+                    }, null, null, null);
+
+            if (cursor.moveToFirst()) {
+                do {
+                    restaurantIds.add(cursorToFood(cursor).getRestaurantID());
+                } while (cursor.moveToNext());
+            }
+
+            RestaurantDataSource restaurantDataSource=new RestaurantDataSource(getContext());
+            restaurantDataSource.open();
+            for(Long id:restaurantIds){
+                restaurants.add(restaurantDataSource.getRestaurant(id));
+            }
+            restaurantDataSource.closeHelper();
+
+            cursor.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            closeDatabase();
+        }
+
+            return restaurants;
+        }
+    }

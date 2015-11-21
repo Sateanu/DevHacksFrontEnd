@@ -48,7 +48,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_SONGS_BEATS_PER_MINUTE = "COLUMN_SONGS_BEATS_PER_MINUTE";
     public static final String COLUMN_SONGS_NO_OF_FIRST_BEATS = "COLUMN_SONGS_NO_OF_FIRST_BEATS";
     public static final String COLUMN_SONGS_NO_OF_SECOND_BEATS = "COLUMN_SONGS_NO_OF_SECOND_BEATS";
+
+    /**
+     * orders table
+     */
+    public static final String TABLE_ORDER_NAME="orders";
+    public static final String COLUMN_ORDER_TIME="COLUMN_ORDER_TIME";
+    public static final String COLUMN_ORDER_RESTAURANTID="COLUMN_ORDER_RESTAURANTID";
+    public static final String COLUMN_ORDER_PRICE="COLUMN_ORDER_PRICE";
+    public static final String COLUMN_ORDER_DISCOUNT="COLUMN_ORDER_DISCOUNT";
+
     private final Context context;
+
+
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, 1);
@@ -93,6 +105,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                         COLUMN_SONGS_SONG_NAME + " text)"
         );
 
+        db.execSQL(
+                "create table " + TABLE_ORDER_NAME + " (" +
+                        COLUMN_ID + " integer primary key, " +
+                        COLUMN_ORDER_PRICE + " real," +
+                        COLUMN_ORDER_TIME + " integer," +
+                        COLUMN_ORDER_RESTAURANTID + " integer," +
+                        COLUMN_ORDER_DISCOUNT + " integer)"
+        );
+
         mydb = db;
 //        addAllSongsPlaylist();
     }
@@ -103,6 +124,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_RESTAURANT_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_FOOD_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_SONGS_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_ORDER_NAME);
         onCreate(db);
     }
 
@@ -115,6 +137,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             mydb.execSQL("DROP TABLE IF EXISTS " + TABLE_RESTAURANT_NAME);
             mydb.execSQL("DROP TABLE IF EXISTS " + TABLE_FOOD_NAME);
             mydb.execSQL("DROP TABLE IF EXISTS " + TABLE_SONGS_NAME);
+            mydb.execSQL("DROP TABLE IF EXISTS " + TABLE_ORDER_NAME);
 
             onCreate(mydb);
         }

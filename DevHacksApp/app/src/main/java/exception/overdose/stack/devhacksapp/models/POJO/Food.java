@@ -21,6 +21,10 @@ public class Food {
         Description = description;
     }
 
+    public Food() {
+
+    }
+
     public long getId() {
         return Id;
     }
