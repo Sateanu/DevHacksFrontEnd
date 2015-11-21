@@ -19,7 +19,11 @@ public class MainModel extends SimpleObservable<MainModel> {
         return restaurants;
     }
 
-    public void setRestaurants(ArrayList<Restaurant> restaurants) {
+    public void setRestaurants(ArrayList<Restaurant> restaurants, boolean... notify) {
         this.restaurants = restaurants;
+        if(notify.length > 0 && notify[0])
+        {
+            notifyObservers();
+        }
     }
 }

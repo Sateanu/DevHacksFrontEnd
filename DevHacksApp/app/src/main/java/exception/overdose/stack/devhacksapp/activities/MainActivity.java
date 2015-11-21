@@ -10,9 +10,11 @@ import android.view.View;
 import android.widget.Button;
 
 import exception.overdose.stack.devhacksapp.R;
+import exception.overdose.stack.devhacksapp.managers.RestaurantsManager;
 import exception.overdose.stack.devhacksapp.models.MainModel;
 import exception.overdose.stack.devhacksapp.utils.BEAPI;
 import exception.overdose.stack.devhacksapp.views.MainLayout;
+import exception.overdose.stack.devhacksapp.views.adapters.RestaurantsAdapter;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -41,12 +43,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-            Intent intent = new Intent(MainActivity.this, MapsActivity.class);
-            startActivityForResult(intent,2);
+                Intent intent = new Intent(MainActivity.this, MapsActivity.class);
+                startActivityForResult(intent, 2);
             }
         });
-
-        new BEAPI.GetRestaurantsAsync().execute();
     }
 
     private void initModel() {
@@ -57,6 +57,14 @@ public class MainActivity extends AppCompatActivity {
         layout = (MainLayout) View.inflate(activity, R.layout.activity_main, null);
         layout.setModel(model);
         layout.setViewListener(viewListener);
+    }
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+
+        model.setRestaurants(RestaurantsManager.getRestaurantsManager().getRestaurants(), true);
     }
 
 }

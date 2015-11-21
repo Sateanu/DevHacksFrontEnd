@@ -54,6 +54,13 @@ public class RestaurantsManager {
     public void setRestaurants(ArrayList<Restaurant> restaurants)
     {
         this.restaurants = restaurants;
+        RestaurantDataSource restaurantDataSource = new RestaurantDataSource(context);
+        restaurantDataSource.open();
+        for(Restaurant restaurant : restaurants)
+        {
+            restaurantDataSource.insertRestaurant(restaurant);
+        }
+        restaurantDataSource.closeHelper();
     }
 
     public void setMyId(long id)
