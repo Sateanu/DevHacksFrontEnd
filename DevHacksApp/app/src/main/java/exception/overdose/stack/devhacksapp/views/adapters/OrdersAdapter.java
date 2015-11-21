@@ -1,6 +1,7 @@
 package exception.overdose.stack.devhacksapp.views.adapters;
 
 import android.content.Context;
+import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import exception.overdose.stack.devhacksapp.R;
@@ -35,7 +37,7 @@ public class OrdersAdapter extends BaseAdapter {
         this.currentItems = items;
         this.context = context;
         restaurantDataSource = new RestaurantDataSource(context);
-        subOrderDataSource= new SubOrderDataSource(context);
+        subOrderDataSource = new SubOrderDataSource(context);
         restaurantDataSource.open();
         subOrderDataSource.open();
     }
@@ -68,22 +70,28 @@ public class OrdersAdapter extends BaseAdapter {
             holder.priceTextView = (TextView) convertView.findViewById(R.id.row_order_price_textview);
             holder.priceWithDiscountTextView = (TextView) convertView.findViewById(R.id.row_order_price_with_discount_textview);
             holder.subordersTextView = (TextView) convertView.findViewById(R.id.row_order_suborders_textview);
-
+            holder.priceTextView.setPaintFlags(holder.priceTextView.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-
+        if (currentItems.get(position).getTime() < (new Date()).getTime()) {
+            holder.timeTextView.setTextColor(getContext().getResources().getColor(R.color.red_dark));
+        } else {
+            holder.timeTextView.setTextColor(getContext().getResources().getColor(R.color.green_dark));
+        }
         holder.timeTextView.setText(Constants.simpleDateTimeFormat.format(currentItems.get(position).getTime()));
         holder.restaurantTextView.setText(restaurantDataSource.getRestaurant(currentItems.get(position).getRestaurantID()).getName());
-        holder.priceTextView.setText(currentItems.get(position).getPrice()+"");
         holder.subordersTextView.setText(
                 XUtils.getSubordersRepresentation(
                         subOrderDataSource.getSubOrders(
-                                currentItems.get(position).getId()),getContext()));
+                                currentItems.get(position).getId()), getContext()));
+        if (currentItems.get(position).getDiscount() != 0) {
+            holder.priceTextView.setText(currentItems.get(position).getPrice() + "");
+        }
         holder.priceWithDiscountTextView.setText(String.format("%.2f",
-                ((1-currentItems.get(position).getDiscount())
-                *currentItems.get(position).getPrice())));
+                ((1 - currentItems.get(position).getDiscount())
+                        * currentItems.get(position).getPrice())));
 
         return convertView;
     }
@@ -96,8 +104,7 @@ public class OrdersAdapter extends BaseAdapter {
         this.context = context;
     }
 
-    public void setCurrentItems(ArrayList<Orders> items)
-    {
+    public void setCurrentItems(ArrayList<Orders> items) {
         this.currentItems = items;
     }
 

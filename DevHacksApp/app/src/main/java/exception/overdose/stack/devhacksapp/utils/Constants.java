@@ -7,7 +7,7 @@ import java.text.SimpleDateFormat;
  */
 public class Constants {
     public static SimpleDateFormat simpleDateFormat=new SimpleDateFormat("dd-MM-yyyy");
-    public static SimpleDateFormat simpleDateTimeFormat=new SimpleDateFormat("HH:mm:ss.SSS, dd-MM-yyyy");
+    public static SimpleDateFormat simpleDateTimeFormat=new SimpleDateFormat("HH:mm, dd-MM-yyyy");
     public static int EVENT_IMAGE=0;
     public static int PROFILE_IMAGE=1;
     public static String COORDINATES="COORDINATES";

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingBottom="14dp"
+    android:paddingLeft="14dp"
+    android:paddingRight="14dp"
+    android:paddingTop="14dp">
+
+    <RelativeLayout
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/dialog_order_details_restaurant_logo_imageview"
+            android:layout_width="128dp"
+            android:layout_height="128dp"
+            android:src="@drawable/ic_clear_black_36dp" />
+
+        <TextView
+            android:id="@+id/dialog_order_restaurant_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/dialog_order_details_restaurant_logo_imageview"
+            android:text="Restaurant"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_size_large"
+            android:layout_marginTop="18dp"/>
+        <TextView
+            android:id="@+id/dialog_order_details_date_title_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Date: "
+            android:layout_below="@+id/dialog_order_restaurant_textview"
+            android:layout_toRightOf="@+id/dialog_order_details_restaurant_logo_imageview"
+            />
+        <TextView
+            android:id="@+id/dialog_order_details_time_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="OrderTime"
+            android:textColor="@color/black"
+            android:layout_toRightOf="@+id/dialog_order_details_date_title_textview"
+            android:layout_below="@+id/dialog_order_restaurant_textview"/>
+        <TextView
+            android:id="@+id/dialog_order_details_price_title_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Price: "
+            android:layout_below="@+id/dialog_order_details_time_textview"
+            android:layout_toRightOf="@+id/dialog_order_details_restaurant_logo_imageview"
+            />
+        <TextView
+            android:id="@+id/dialog_order_details_price_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="price"
+            android:textColor="@color/black"
+            android:layout_toRightOf="@+id/dialog_order_details_price_title_textview"
+            android:layout_below="@+id/dialog_order_details_time_textview"/>
+        <TextView
+            android:id="@+id/dialog_order_details_price_with_discount_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="price with discount"
+            android:textColor="@color/black"
+            android:layout_toRightOf="@+id/dialog_order_details_price_textview"
+            android:layout_below="@+id/dialog_order_details_time_textview"
+            android:layout_marginLeft="5dp"/>
+    </RelativeLayout>
+
+    <ListView
+        android:id="@+id/dialog_order_details_listview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></ListView>
+
+</LinearLayout>

@@ -1,29 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/row_order_time_textview"
+    <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/row_event_cardview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        card_view:cardBackgroundColor="@color/gray_light"
+        card_view:cardCornerRadius="4dp">
 
-    <TextView
-        android:id="@+id/row_order_restaurant_textview"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="16dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="16dp">
 
-    <TextView
-        android:id="@+id/row_order_price_textview"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-    <TextView
-        android:id="@+id/row_order_price_with_discount_textview"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-    <TextView
-        android:id="@+id/row_order_suborders_textview"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+            <ImageView
+                android:id="@+id/row_order_restaurant_logo_imageview"
+                android:layout_width="128dp"
+                android:layout_height="128dp"
+                android:src="@drawable/ic_clear_black_36dp" />
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_toRightOf="@+id/row_order_restaurant_logo_imageview"
+                android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/row_order_first_line_info_relativelayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:orientation="horizontal"
+                android:textColor="@color/black">
+
+                <TextView
+                    android:id="@+id/row_order_restaurant_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Restaurant"
+                    android:textColor="@color/black"
+                    android:layout_alignParentLeft="true"
+                    android:textSize="@dimen/text_size_large"/>
+
+                <TextView
+                    android:id="@+id/row_order_time_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="OrderTime"
+                    android:textColor="@color/black"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"/>
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/row_order_suborders_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Subordersdetails"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:layout_below="@+id/row_order_first_line_info_relativelayout"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/row_order_suborders_textview">
+
+                <TextView
+                    android:id="@+id/row_order_price_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="price"
+                    android:layout_marginRight="5dp" />
+
+                <TextView
+                    android:id="@+id/row_order_price_with_discount_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="price with discount"/>
+            </LinearLayout>
+            </RelativeLayout>
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
 
 </LinearLayout>
