@@ -4,7 +4,7 @@ package exception.overdose.stack.devhacksapp.models.POJO;
  * Created by alexbuicescu on 21.11.2015.
  */
 public class Food {
-    
+
     private long Id;
     private String Name;
     private float Price;
