@@ -10,6 +10,24 @@ public class SubOrder {
     private long FoodID;
     private int Quantity;
 
+    public SubOrder()
+    {
+
+    }
+
+    public SubOrder(long OrderID, long FoodID, int Quantity)
+    {
+        this.OrderID = OrderID;
+        this.FoodID = FoodID;
+        this.Quantity = Quantity;
+    }
+
+    public SubOrder(long Id, long OrderID, long FoodID, int Quantity)
+    {
+        this(OrderID, FoodID, Quantity);
+        this.Id = Id;
+    }
+
     public long getId() {
         return Id;
     }

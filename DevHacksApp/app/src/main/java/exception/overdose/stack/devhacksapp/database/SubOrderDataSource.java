@@ -5,51 +5,36 @@ import android.content.Context;
 import android.database.Cursor;
 import android.util.Log;
 
-import net.indyvision.metronome.pojo.Connection;
-import net.indyvision.metronome.pojo.Playlist;
-import net.indyvision.metronome.pojo.Song;
-
 import java.util.ArrayList;
+
+import exception.overdose.stack.devhacksapp.models.POJO.SubOrder;
 
 /**
  * Created by alexbuicescu on 17.09.2015.
  */
 public class SubOrderDataSource extends BaseDataSource {
-    private String[] allColumns = {DatabaseHelper.COLUMN_ID,
-            DatabaseHelper.COLUMN_FOOD_NAME,
-            DatabaseHelper.COLUMN_FOOD_PRICE,
-            DatabaseHelper.COLUMN_FOOD_DESCRIPTION,
-    };
-
-    private FoodDataSource foodDataSource;
 
     public SubOrderDataSource(Context context) {
         super(context);
-        tableName = DatabaseHelper.TABLE_CONNECTIONS_NAME;
-        foodDataSource = new FoodDataSource(context);
-        foodDataSource.open();
+        tableName = DatabaseHelper.TABLE_SUBORDER_NAME;
     }
 
     @Override
     public void closeHelper()
     {
         getDbHelper().close();
-        foodDataSource.closeHelper();
     }
 
-    public long insertSongToPlaylist(Playlist playlist, Song song, int orderInPlaylist) {
+    public long insertSubOrder(SubOrder subOrder) {
 
         if (!getDatabase().isOpen()) {
             open();
         }
         try {
             long rowId;
-            ContentValues contentValues = getConnectionContentValues(playlist.getId(), song.getId(), orderInPlaylist);
+            ContentValues contentValues = getSubOrderContentValues(subOrder);
 
             rowId = getDatabase().insert(tableName, null, contentValues);
-
-            playlist.setSongsCounter(playlist.getSongsCounter() + 1);
-            foodDataSource.updatePlaylist(playlist);
 
             return rowId;
         } catch (Exception e) {
@@ -59,19 +44,24 @@ public class SubOrderDataSource extends BaseDataSource {
         return -1;
     }
 
-    public ArrayList<Connection> getAllConnections() {
+    public ArrayList<SubOrder> getSubOrders(long orderId) {
         if (!getDatabase().isOpen()) {
             open();
         }
 
-        ArrayList<Connection> connections = new ArrayList<>();
+        ArrayList<SubOrder> subOrders = new ArrayList<>();
         try {
             Cursor cursor = getDatabase().query(tableName,
-                    null, null, null, null, null, null);
+                    null,
+                    DatabaseHelper.COLUMN_SUBORDER_ORDER_ID + " = ?",
+                    new String[]{
+                            String.valueOf(orderId)
+                    },
+                    null, null, null);
 
             if (cursor.moveToFirst()) {
                 do {
-                    connections.add(cursorToConnection(cursor));
+                    subOrders.add(cursorToSubOrder(cursor));
                 } while (cursor.moveToNext());
             }
 
@@ -82,21 +72,20 @@ public class SubOrderDataSource extends BaseDataSource {
             closeDatabase();
         }
 
-        return connections;
+        return subOrders;
     }
 
-    public boolean updateSongInPlaylist(long playlistId, long songId, int newOrderInPlaylist) {
+    public boolean updateSubOrder(SubOrder subOrder) {
         if (!getDatabase().isOpen()) {
             open();
         }
         try {
-            ContentValues contentValues = getConnectionContentValues(playlistId, songId, newOrderInPlaylist);
+            ContentValues contentValues = getSubOrderContentValues(subOrder);
 
             if (getDatabase().update(tableName, contentValues,
-                    DatabaseHelper.COLUMN_CONNECTIONS_PLAYLISTS_ID + " = ? and " +
-                            DatabaseHelper.COLUMN_CONNECTIONS_SONG_ID + " = ?",
-                    new String[]{String.valueOf(playlistId), String.valueOf(songId)}) <= 0) {
-                Log.e("database", songId + " not found in: " + playlistId);
+                    DatabaseHelper.COLUMN_SUBORDER_ORDER_ID + " = ? and " +
+                            DatabaseHelper.COLUMN_SUBORDER_FOOD_ID + " = ?",
+                    new String[]{String.valueOf(subOrder.getOrderID()), String.valueOf(subOrder.getFoodID())}) <= 0) {
                 return false;
             }
 
@@ -109,30 +98,24 @@ public class SubOrderDataSource extends BaseDataSource {
         return false;
     }
 
-    private ContentValues getConnectionContentValues(long playlistId, long songId, int orderInPlaylist) {
+    private ContentValues getSubOrderContentValues(SubOrder subOrder) {
         ContentValues contentValues = new ContentValues();
 
-        contentValues.put(DatabaseHelper.COLUMN_CONNECTIONS_PLAYLISTS_ID, playlistId);
-        contentValues.put(DatabaseHelper.COLUMN_CONNECTIONS_SONG_ID, songId);
-        contentValues.put(DatabaseHelper.COLUMN_CONNECTIONS_ORDER_IN_PLAYLIST, orderInPlaylist);
+        contentValues.put(DatabaseHelper.COLUMN_SUBORDER_FOOD_ID, subOrder.getFoodID());
+        contentValues.put(DatabaseHelper.COLUMN_SUBORDER_ORDER_ID, subOrder.getOrderID());
+        contentValues.put(DatabaseHelper.COLUMN_SUBORDER_QUANTITY, subOrder.getQuantity());
 
         return contentValues;
     }
 
-    public Integer deleteSongFromPlaylist(Playlist playlist, Song song) {
+    public Integer deleteSubOrderByOrderId(long orderId) {
         if (!getDatabase().isOpen()) {
             open();
         }
         try {
             int rows = getDatabase().delete(tableName,
-                    DatabaseHelper.COLUMN_CONNECTIONS_PLAYLISTS_ID + " = ? and" +
-                            DatabaseHelper.COLUMN_CONNECTIONS_SONG_ID + " = ?",
-                    new String[]{String.valueOf(playlist.getId()), String.valueOf(song.getId())});
-
-            if(rows > 0) {
-                playlist.setSongsCounter(playlist.getSongsCounter() - 1);
-                foodDataSource.updatePlaylist(playlist);
-            }
+                    DatabaseHelper.COLUMN_SUBORDER_ORDER_ID + " = ? ",
+                    new String[]{String.valueOf(orderId)});
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -141,14 +124,14 @@ public class SubOrderDataSource extends BaseDataSource {
         return -1;
     }
 
-    public Integer deletePlaylist(long playlistId) {
+    public Integer deleteSubOrderById(long subOrderid) {
         if (!getDatabase().isOpen()) {
             open();
         }
         try {
             int rows = getDatabase().delete(tableName,
-                    DatabaseHelper.COLUMN_CONNECTIONS_PLAYLISTS_ID + " = ?",
-                    new String[]{String.valueOf(playlistId)});
+                    DatabaseHelper.COLUMN_ID + " = ? ",
+                    new String[]{String.valueOf(subOrderid)});
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -157,16 +140,18 @@ public class SubOrderDataSource extends BaseDataSource {
         return -1;
     }
 
-    private Connection cursorToConnection(Cursor cursor)
+    private SubOrder cursorToSubOrder(Cursor cursor)
     {
         Integer columnIdIndex = cursor.getColumnIndex(DatabaseHelper.COLUMN_ID);
-        Integer columnPlaylistIdIndex = cursor.getColumnIndex(DatabaseHelper.COLUMN_CONNECTIONS_PLAYLISTS_ID);
-        Integer columnSongIdIndex = cursor.getColumnIndex(DatabaseHelper.COLUMN_CONNECTIONS_SONG_ID);
+        Integer columnFoodIdIndex = cursor.getColumnIndex(DatabaseHelper.COLUMN_SUBORDER_FOOD_ID);
+        Integer columnOrderIdIndex = cursor.getColumnIndex(DatabaseHelper.COLUMN_SUBORDER_ORDER_ID);
+        Integer columnQuantityIndex = cursor.getColumnIndex(DatabaseHelper.COLUMN_SUBORDER_QUANTITY);
 
         long id = cursor.getLong(columnIdIndex);
-        long playlistID = cursor.getLong(columnPlaylistIdIndex);
-        long songID = cursor.getLong(columnSongIdIndex);
+        long foodId = cursor.getLong(columnFoodIdIndex);
+        long orderId = cursor.getLong(columnOrderIdIndex);
+        int quantity = cursor.getInt(columnQuantityIndex);
 
-        return new Connection(id, playlistID, songID);
+        return new SubOrder(id, orderId, foodId, quantity);
     }
 }

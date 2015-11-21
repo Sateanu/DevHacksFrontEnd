@@ -5,11 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.util.Log;
 
-import net.indyvision.metronome.pojo.Playlist;
-import net.indyvision.metronome.pojo.Song;
-import net.indyvision.metronome.utils.Constants;
-import net.indyvision.metronome.utils.PrefUtils;
-
 import java.util.ArrayList;
 
 import exception.overdose.stack.devhacksapp.models.POJO.Restaurant;
@@ -230,19 +225,19 @@ public class RestaurantDataSource extends BaseDataSource {
     private Restaurant cursorToRestaurant(Cursor cursor, int orderInPlaylist)
     {
         Integer columnIdIndex = cursor.getColumnIndex(DatabaseHelper.COLUMN_ID);
-        Integer columnSongNameIndex = cursor.getColumnIndex(DatabaseHelper.COLUMN_SONGS_SONG_NAME);
-        Integer columnBeatsPerMinuteIndex = cursor.getColumnIndex(DatabaseHelper.COLUMN_SONGS_BEATS_PER_MINUTE);
-        Integer columnLengthIndex = cursor.getColumnIndex(DatabaseHelper.COLUMN_SONGS_LENGTH);
-        Integer columnNoFirstBeats = cursor.getColumnIndex(DatabaseHelper.COLUMN_SONGS_NO_OF_FIRST_BEATS);
-        Integer columnNoSecondBeats = cursor.getColumnIndex(DatabaseHelper.COLUMN_SONGS_NO_OF_SECOND_BEATS);
+        Integer columnRestaurantNameIndex = cursor.getColumnIndex(DatabaseHelper.COLUMN_RESTAURANT_NAME);
+        Integer columnRestaurantSpecificIndex = cursor.getColumnIndex(DatabaseHelper.COLUMN_RESTAURANT_SPECIFIC);
+        Integer columnRestaurantLocationIndex = cursor.getColumnIndex(DatabaseHelper.COLUMN_RESTAURANT_LOCATION);
+        Integer columnRestaurantLongitudeIndex = cursor.getColumnIndex(DatabaseHelper.COLUMN_RESTAURANT_LONGITUDE);
+        Integer columnRestaurantLatitudeIndex = cursor.getColumnIndex(DatabaseHelper.COLUMN_RESTAURANT_LATITUDE);
 
         long id = cursor.getLong(columnIdIndex);
-        String songName = cursor.getString(columnSongNameIndex);
-        int beatsPerMinute = cursor.getInt(columnBeatsPerMinuteIndex);
-        int length = cursor.getInt(columnLengthIndex);
-        int noFirstBeats = cursor.getInt(columnNoFirstBeats);
-        int noSecondBeats = cursor.getInt(columnNoSecondBeats);
+        String name = cursor.getString(columnRestaurantNameIndex);
+        String specific = cursor.getString(columnRestaurantSpecificIndex);
+        String location = cursor.getString(columnRestaurantLocationIndex);
+        float longitude = cursor.getFloat(columnRestaurantLongitudeIndex);
+        float latitude = cursor.getFloat(columnRestaurantLatitudeIndex);
 
-        return new Restaurant(id, beatsPerMinute, length, songName, orderInPlaylist, noFirstBeats, noSecondBeats);
+        return new Restaurant(id, name, specific, longitude, latitude, location);
     }
 }

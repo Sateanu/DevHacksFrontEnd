@@ -5,8 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import net.indyvision.metronome.pojo.Playlist;
-
 import java.util.ArrayList;
 
 import exception.overdose.stack.devhacksapp.models.POJO.Food;

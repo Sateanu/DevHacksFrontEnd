@@ -15,11 +15,6 @@ import java.util.ArrayList;
  * Created by alexbuicescu on 17.09.2015.
  */
 public class OrderDataSource extends BaseDataSource {
-    private String[] allColumns = {DatabaseHelper.COLUMN_ID,
-            DatabaseHelper.COLUMN_FOOD_NAME,
-            DatabaseHelper.COLUMN_FOOD_PRICE,
-            DatabaseHelper.COLUMN_FOOD_DESCRIPTION,
-    };
 
     private FoodDataSource foodDataSource;
 
