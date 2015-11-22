@@ -161,6 +161,7 @@ public class RestaurantDataSource extends BaseDataSource {
         contentValues.put(DatabaseHelper.COLUMN_RESTAURANT_LOCATION, restaurant.getLocation());
         contentValues.put(DatabaseHelper.COLUMN_RESTAURANT_LONGITUDE, restaurant.getLongitude());
         contentValues.put(DatabaseHelper.COLUMN_RESTAURANT_LATITUDE, restaurant.getLatitude());
+        contentValues.put(DatabaseHelper.COLUMN_RESTAURANT_URL,restaurant.getUrl());
 
         return contentValues;
     }
@@ -231,14 +232,18 @@ public class RestaurantDataSource extends BaseDataSource {
         Integer columnRestaurantLocationIndex = cursor.getColumnIndex(DatabaseHelper.COLUMN_RESTAURANT_LOCATION);
         Integer columnRestaurantLongitudeIndex = cursor.getColumnIndex(DatabaseHelper.COLUMN_RESTAURANT_LONGITUDE);
         Integer columnRestaurantLatitudeIndex = cursor.getColumnIndex(DatabaseHelper.COLUMN_RESTAURANT_LATITUDE);
+        Integer columnUrlIndex = cursor.getColumnIndex(DatabaseHelper.COLUMN_RESTAURANT_URL);
 
         long id = cursor.getLong(columnIdIndex);
         String name = cursor.getString(columnRestaurantNameIndex);
         String specific = cursor.getString(columnRestaurantSpecificIndex);
         String location = cursor.getString(columnRestaurantLocationIndex);
+        String url = cursor.getString(columnUrlIndex);
         float longitude = cursor.getFloat(columnRestaurantLongitudeIndex);
         float latitude = cursor.getFloat(columnRestaurantLatitudeIndex);
 
-        return new Restaurant(id, name, specific, longitude, latitude, location);
+        Restaurant restaurant= new Restaurant(id, name, specific, longitude, latitude, location);
+        restaurant.setUrl(url);
+        return restaurant;
     }
 }

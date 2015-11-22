@@ -38,6 +38,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_RESTAURANT_LONGITUDE = "COLUMN_RESTAURANT_LONGITUDE";
     public static final String COLUMN_RESTAURANT_LATITUDE = "COLUMN_RESTAURANT_LATITUDE";
     public static final String COLUMN_RESTAURANT_LOCATION = "COLUMN_RESTAURANT_LOCATION";
+    public static final String COLUMN_RESTAURANT_URL="COLUMN_RESTAURANT_URL";
 
   
     /**
@@ -93,6 +94,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                         COLUMN_RESTAURANT_NAME + " text, " +
                         COLUMN_RESTAURANT_SPECIFIC + " text, " +
                         COLUMN_RESTAURANT_LOCATION + " text, " +
+                        COLUMN_RESTAURANT_URL + " text, " +
                         COLUMN_RESTAURANT_LONGITUDE + " real, " +
                         COLUMN_RESTAURANT_LATITUDE + " real)"
         );

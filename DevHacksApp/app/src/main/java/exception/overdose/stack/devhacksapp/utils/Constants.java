@@ -1,5 +1,7 @@
 package exception.overdose.stack.devhacksapp.utils;
 
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+
 import java.text.SimpleDateFormat;
 
 /**
@@ -21,4 +23,8 @@ public class Constants {
     public static final String PICK_A_LOCATION="Pick a location";
 
     public static final String SUBORDERS ="SUBORDERS";
+    public static final DisplayImageOptions DISPLAY_IMAGE_OPTIONS = new DisplayImageOptions.Builder()
+            .cacheInMemory(true)
+            .cacheOnDisk(true)
+            .build();
 }

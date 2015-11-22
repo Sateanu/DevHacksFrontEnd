@@ -11,6 +11,7 @@ public class Restaurant {
     private float longitude;
     private float latitude;
     private String location;
+    private String url;
 
     public Restaurant()
     {
@@ -78,5 +79,13 @@ public class Restaurant {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 }

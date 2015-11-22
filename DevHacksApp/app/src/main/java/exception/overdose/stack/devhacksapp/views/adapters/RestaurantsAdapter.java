@@ -5,9 +5,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.SectionIndexer;
 import android.widget.TextView;
 
+
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -90,12 +93,13 @@ public class RestaurantsAdapter extends BaseAdapter implements StickyListHeaders
             holder.nameTextView = (TextView) convertView.findViewById(R.id.row_restaurant_name_textview);
             holder.specificTextView = (TextView) convertView.findViewById(R.id.row_restaurant_specific_textview);
             holder.locationTextView = (TextView) convertView.findViewById(R.id.row_restaurant_location_textview);
+            holder.restaurantLogoImageView= (ImageView) convertView.findViewById(R.id.row_restaurant_restaurant_logo_imageview);
 
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-
+        ImageLoader.getInstance().displayImage(currentItems.get(position).getUrl(), holder.restaurantLogoImageView);
         holder.nameTextView.setText(currentItems.get(position).getName());
         holder.specificTextView.setText(currentItems.get(position).getSpecific());
         holder.locationTextView.setText(currentItems.get(position).getLocation());
@@ -167,6 +171,7 @@ public class RestaurantsAdapter extends BaseAdapter implements StickyListHeaders
         TextView nameTextView;
         TextView specificTextView;
         TextView locationTextView;
+        ImageView restaurantLogoImageView;
     }
 
     public static class DividerViewHolder {

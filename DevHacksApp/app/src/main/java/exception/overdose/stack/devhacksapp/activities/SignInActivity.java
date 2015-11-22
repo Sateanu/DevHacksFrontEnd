@@ -24,6 +24,8 @@ import com.google.android.gms.common.api.OptionalPendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.LocationServices;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 import exception.overdose.stack.devhacksapp.R;
 import exception.overdose.stack.devhacksapp.managers.OrdersManager;
@@ -124,6 +126,10 @@ public class SignInActivity extends AppCompatActivity implements
                 }
             });
         }
+        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(getApplicationContext())
+        .defaultDisplayImageOptions(Constants.DISPLAY_IMAGE_OPTIONS)
+        .build();
+        ImageLoader.getInstance().init(config);
     }
 
     // [START onActivityResult]
