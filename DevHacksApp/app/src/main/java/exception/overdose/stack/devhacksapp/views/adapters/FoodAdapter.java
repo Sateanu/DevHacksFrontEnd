@@ -6,25 +6,33 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.SectionIndexer;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 import exception.overdose.stack.devhacksapp.R;
 import exception.overdose.stack.devhacksapp.models.MenuModel;
 import exception.overdose.stack.devhacksapp.models.POJO.Food;
+import exception.overdose.stack.devhacksapp.models.POJO.Restaurant;
+import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 
 /**
  * Created by Adriana on 22/11/2015.
  */
-public class FoodAdapter extends BaseAdapter {
+public class FoodAdapter extends BaseAdapter implements StickyListHeadersAdapter, SectionIndexer {
     private LayoutInflater layoutInflater;
 
     //    private List<Food> currentItems;
 //    private HashMap<Long,Integer> quantities;
     private MenuModel menuModel;
+    ArrayList<String> currentHeaders;
+    private HashMap<String, Integer> indexer;
 
     private Context context;
 
@@ -34,6 +42,30 @@ public class FoodAdapter extends BaseAdapter {
 //        this.quantities=quantities;
         this.menuModel = menuModel;
         this.context = context;
+
+        initIndexer();
+    }
+
+    private void initIndexer() {
+        indexer = new HashMap<>();
+
+        Collections.sort(menuModel.getFoods(), new Comparator<Food>() {
+            @Override
+            public int compare(Food lhs, Food rhs) {
+                return lhs.getCategory().compareTo(rhs.getCategory());
+            }
+        });
+
+        for (int i = 0; i < menuModel.getFoods().size(); i++) {
+            if(indexer.get(menuModel.getFoods().get(i).getCategory()+ "") == null)
+            {
+                indexer.put(menuModel.getFoods().get(i).getCategory() + "", i);
+            }
+        }
+
+        Set<String> keys = indexer.keySet();
+        currentHeaders = new ArrayList<>(keys);
+        Collections.sort(currentHeaders);
     }
 
     @Override
@@ -93,15 +125,15 @@ public class FoodAdapter extends BaseAdapter {
 
     public void onMinusImageViewClicked(int position) {
         HashMap newHashMap = menuModel.getProductQuantities();
-        newHashMap.put(menuModel.getFoods().get(position).getId(), Long.valueOf(
-                (Long) newHashMap.get(menuModel.getFoods().get(position).getId()) - 1));
+        newHashMap.put(menuModel.getFoods().get(position).getId(), Integer.valueOf(
+                (Integer) newHashMap.get(menuModel.getFoods().get(position).getId()) - 1));
         menuModel.setProductQuantities(newHashMap, true);
     }
 
     public void onPlusImageViewClicked(int position) {
         HashMap newHashMap = menuModel.getProductQuantities();
-        newHashMap.put(menuModel.getFoods().get(position).getId(), Long.valueOf(
-                (Long) newHashMap.get(menuModel.getFoods().get(position).getId()) + 1));
+        newHashMap.put(menuModel.getFoods().get(position).getId(), Integer.valueOf(
+                (Integer) newHashMap.get(menuModel.getFoods().get(position).getId()) + 1));
         menuModel.setProductQuantities(newHashMap, true);
     }
 
@@ -113,6 +145,57 @@ public class FoodAdapter extends BaseAdapter {
         this.context = context;
     }
 
+    @Override
+    public Object[] getSections() {
+        return currentHeaders.toArray();
+    }
+
+    @Override
+    public int getPositionForSection(int section) {
+        try {
+            return indexer.get(currentHeaders.get(section));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    @Override
+    public int getSectionForPosition(int position) {
+        for (int i = 0; i < currentHeaders.size(); i++) {
+            if (position < indexer.get(currentHeaders.get(i))) {
+                return i - 1;
+            }
+        }
+        return currentHeaders.size() - 1;
+    }
+
+    @Override
+    public View getHeaderView(int i, View convertView, ViewGroup parent) {
+        DividerViewHolder holder;
+
+        if (convertView == null) {
+            holder = new DividerViewHolder();
+            convertView = layoutInflater.inflate(R.layout.layout_restaurant_header_view, parent, false);
+            holder.groupName = (TextView) convertView.findViewById(R.id.list_view_header);
+            convertView.setTag(holder);
+        } else {
+            holder = (DividerViewHolder) convertView.getTag();
+        }
+
+        holder.groupName.setText("Header: " + menuModel.getFoods().get(i).getCategory());
+
+        return convertView;
+    }
+
+    @Override
+    public long getHeaderId(int i) {
+        return indexer.get(menuModel.getFoods().get(i).getCategory());//currentItems.get(i).getSpecific();
+    }
+
+    public static class DividerViewHolder {
+        TextView groupName;
+    }
 
     private static class ViewHolder {
         TextView foodNameTextView;

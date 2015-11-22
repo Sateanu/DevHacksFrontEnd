@@ -13,6 +13,7 @@ import exception.overdose.stack.devhacksapp.R;
 import exception.overdose.stack.devhacksapp.managers.RestaurantsManager;
 import exception.overdose.stack.devhacksapp.models.MainModel;
 import exception.overdose.stack.devhacksapp.utils.BEAPI;
+import exception.overdose.stack.devhacksapp.utils.Constants;
 import exception.overdose.stack.devhacksapp.views.MainLayout;
 import exception.overdose.stack.devhacksapp.views.adapters.RestaurantsAdapter;
 
@@ -25,6 +26,12 @@ public class MainActivity extends AppCompatActivity {
     private MainLayout layout;
     private MainModel model;
     private MainLayout.ViewListener viewListener = new MainLayout.ViewListener() {
+        @Override
+        public void onItemClicked(int position) {
+            Intent intent=new Intent(activity,MenuActivity.class);
+            intent.putExtra(Constants.RESTAURANT_ID,model.getRestaurants().get(position).getId());
+            startActivity(intent);
+        }
     };
 
     @Override

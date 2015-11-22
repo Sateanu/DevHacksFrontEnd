@@ -14,6 +14,7 @@ import exception.overdose.stack.devhacksapp.interfaces.mvc.OnChangeListener;
 import exception.overdose.stack.devhacksapp.models.MenuModel;
 import exception.overdose.stack.devhacksapp.utils.ViewUtils;
 import exception.overdose.stack.devhacksapp.views.adapters.FoodAdapter;
+import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
 /**
  * Created by Adriana on 22/11/2015.
@@ -25,7 +26,7 @@ public class MenuLayout extends RelativeLayout implements OnChangeListener<MenuM
     private MenuModel model;
     private ViewListener viewListener;
 
-    private ListView ordersListView;
+    private StickyListHeadersListView ordersListView;
     private FoodAdapter foodAdapter;
     private Toolbar toolbar;
 
@@ -57,7 +58,8 @@ public class MenuLayout extends RelativeLayout implements OnChangeListener<MenuM
     }
 
     private void initLayout() {
-        ordersListView = (ListView) findViewById(R.id.activity_menu_food_listview);
+        ordersListView = (StickyListHeadersListView) findViewById(R.id.activity_menu_food_listview);
+        ordersListView.setFastScrollEnabled(true);
 //        ordersListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 //            @Override
 //            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
