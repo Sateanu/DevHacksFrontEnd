@@ -142,7 +142,7 @@ public class OrdersLayout  extends RelativeLayout implements OnChangeListener<Or
         }
         priceTextView.setPaintFlags(priceTextView.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         priceWithDiscountextView.setText(String.format("%.2f",
-                ((1 - getModel().getOrders().get(position).getDiscount())
+                ((1 - getModel().getOrders().get(position).getDiscount()/100)
                         * getModel().getOrders().get(position).getPrice())));
         timeTextView.setText(Constants.simpleDateTimeFormat.format(getModel().getOrders().get(position).getTime()));
         subordersListView.setAdapter(new SubordersAdapter(getContext(),subOrderDataSource.getSubOrders(getModel().getOrders().get(position).getId())));
