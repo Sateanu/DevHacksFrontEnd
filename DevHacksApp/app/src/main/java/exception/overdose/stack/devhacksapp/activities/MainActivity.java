@@ -80,7 +80,8 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
         if (id == R.id.menu_main_action_history) {
-//            viewListener.onSendOrderClicked();
+            Intent intent=new Intent(MainActivity.this,OrdersActivity.class);
+            startActivity(intent);
             return true;
         }
         if (id == R.id.menu_main_action_popular) {

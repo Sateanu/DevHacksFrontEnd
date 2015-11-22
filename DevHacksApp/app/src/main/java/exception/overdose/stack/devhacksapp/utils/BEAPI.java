@@ -89,7 +89,7 @@ public class BEAPI {
 
     }
 
-    public static class GetOrdersAsync extends AsyncTask<Void, Void, Void>
+    public static class GetOrderssAsync extends AsyncTask<Void, Void, Void>
     {
 
         @Override
@@ -196,10 +196,11 @@ public class BEAPI {
             }
 
             HttpClient httpclient = new DefaultHttpClient();
-            HttpPost httppost = new HttpPost("http://192.168.2.172:8008/api/RestaurantsApi/GetRestaurants");
+            HttpPost httppost = new HttpPost("http://192.168.2.172:8008/api/OrdersApi/PostOrder");
 
             // Request parameters and other properties.
             List<NameValuePair> postParams = new ArrayList<>();
+            params[0].setSubOrders(subOrders);
             postParams.add(new BasicNameValuePair("order", new Gson().toJson(params[0])));
             try {
                 httppost.setEntity(new UrlEncodedFormEntity(postParams, "UTF-8"));
@@ -222,9 +223,12 @@ public class BEAPI {
                 Gson gson = new Gson();
 //                Restaurant[] response = gson.fromJson(result.toString(), Restaurant[].class);
                 Orders responseFromBE = gson.fromJson(result.toString(), Orders.class);
+                Log.i("sendorder", result.toString());
+                Log.i("sendsuborder", new Gson().toJson(params[0]));
                 if(responseFromBE != null) {
                     OrdersManager.getOrdersManager().addOrder(responseFromBE);
                     orderId = responseFromBE.getId();
+                    OrdersManager.getOrdersManager().insertSubOrders(orderId, subOrders);
                 }
 
                 try {
@@ -248,7 +252,7 @@ public class BEAPI {
 
         @Override
         protected void onPostExecute(Void param){
-            new SendSubOrdersAsync(orderId, subOrders).execute();
+//            new SendSubOrdersAsync(orderId, subOrders).execute();
         }
 
     }
@@ -293,6 +297,8 @@ public class BEAPI {
 
                 OrdersManager.getOrdersManager().insertSubOrders(orderId, subOrders);
 
+                Log.i("sendsuborder", result.toString());
+                Log.i("sendsuborder", new Gson().toJson(subOrders));
                 Gson gson = new Gson();
 //                Restaurant[] response = gson.fromJson(result.toString(), Restaurant[].class);
                 Orders responseFromBE = gson.fromJson(result.toString(), Orders.class);
@@ -360,6 +366,69 @@ public class BEAPI {
                     Log.i("login", result.toString() + " result " + responseFromBE);
 
                     RestaurantsManager.getRestaurantsManager().setMyId(responseFromBE);
+//                if(responseFromBE != null) {
+//                    OrdersManager.getOrdersManager().getOrderses().add(responseFromBE);
+//                }
+
+                    try {
+                        // do something useful
+                    } finally {
+                        instream.close();
+                    }
+                } else {
+                    throw new Exception();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+//            return response;
+            return null;
+        }
+
+    }
+
+    public static class GetOrdersAsync extends AsyncTask<String, Void, Void> {
+        @Override
+        protected Void doInBackground(String... params) {
+            if (params.length == 0) {
+                return null;
+            }
+
+            HttpClient httpclient = new DefaultHttpClient();
+            HttpPost httppost = new HttpPost("http://192.168.2.172:8008/api/OrdersApi/GetOrderUser");
+
+            // Request parameters and other properties.
+            List<NameValuePair> postParams = new ArrayList<>();
+            postParams.add(new BasicNameValuePair("email", params[0]));
+            try {
+                httppost.setEntity(new UrlEncodedFormEntity(postParams, "UTF-8"));
+//                httppost.setHeader("Content-Type", "application/json");
+//                httppost.setEntity(new StringEntity(params[0]));
+
+                //Execute and get the response.
+                HttpResponse response = httpclient.execute(httppost);
+                HttpEntity entity = response.getEntity();
+
+                if (entity != null) {
+                    InputStream instream = entity.getContent();
+
+                    StringBuilder result = new StringBuilder();
+                    BufferedReader rd = new BufferedReader(new InputStreamReader(instream));
+                    String line;
+                    while ((line = rd.readLine()) != null) {
+                        result.append(line);
+                    }
+                    rd.close();
+
+                    Gson gson = new Gson();
+                Orders[] orderses = gson.fromJson(result.toString(), Orders[].class);
+//                    long responseFromBE = gson.fromJson(result.toString(), long.class);
+                    Log.i("orderses", result.toString() + " result " );
+
+                    OrdersManager.getOrdersManager().setOrderses(new ArrayList<Orders>(Arrays.asList(orderses)));
 //                if(responseFromBE != null) {
 //                    OrdersManager.getOrdersManager().getOrderses().add(responseFromBE);
 //                }

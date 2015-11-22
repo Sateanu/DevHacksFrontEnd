@@ -160,7 +160,8 @@ public class SignInActivity extends AppCompatActivity implements
             }
 
             OrdersManager.getOrdersManager(SignInActivity.this);
-            OrdersManager.getOrdersManager(SignInActivity.this);
+            new BEAPI.GetOrdersAsync().execute(acct.getEmail());
+
 
             new BEAPI.SendEmailAsync().execute(acct.getEmail());
 

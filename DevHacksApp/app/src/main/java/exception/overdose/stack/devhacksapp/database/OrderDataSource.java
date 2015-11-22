@@ -3,6 +3,7 @@ package exception.overdose.stack.devhacksapp.database;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.util.Log;
 
 import java.util.ArrayList;
 import exception.overdose.stack.devhacksapp.models.POJO.Orders;
@@ -33,10 +34,14 @@ public class OrderDataSource extends BaseDataSource {
             open();
         }
         try {
+            if(orderExists(orders.getId())!=-1){
+                return -1;
+            }
             long rowId;
             ContentValues contentValues = getOrderContentValues(orders);
 
             rowId = getDatabase().insert(tableName, null, contentValues);
+            Log.i("ordersdb","rowId  "+ rowId+"");
 
             return rowId;
         } catch (Exception e) {
@@ -96,6 +101,7 @@ public class OrderDataSource extends BaseDataSource {
             if (cursor.moveToFirst()) {
                 do {
                     orders.add(cursorToOrder(cursor));
+                    Log.i("ordersdb", orders.get(orders.size() - 1).getId()+"");
                 } while (cursor.moveToNext());
             }
 
@@ -164,6 +170,36 @@ public class OrderDataSource extends BaseDataSource {
         order.setLongitude(longitude);
         return order;
     }
+    public long orderExists(long orderId) {
+        if (!getDatabase().isOpen()) {
+            open();
+        }
+
+        long playlistID = -1;
+
+        try {
+            Cursor cursor = getDatabase().query(tableName,
+                    null,
+                    DatabaseHelper.COLUMN_ID + " = ?",
+                    new String[]{
+                            orderId+""
+                    },
+                    null, null, null);
+
+            Integer columnIdIndex = cursor.getColumnIndex(DatabaseHelper.COLUMN_ID);
+
+            if (cursor.moveToFirst()) {
+                playlistID = cursor.getLong(columnIdIndex);
+            }
+            cursor.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            closeDatabase();
+        }
+
+        return playlistID;
+    }
+
     private ContentValues getOrderContentValues(Orders orders) {
         ContentValues contentValues = new ContentValues();
 

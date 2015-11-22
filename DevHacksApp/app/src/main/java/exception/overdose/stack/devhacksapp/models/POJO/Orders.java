@@ -1,5 +1,7 @@
 package exception.overdose.stack.devhacksapp.models.POJO;
 
+import java.util.ArrayList;
+
 /**
  * Created by alexbuicescu on 21.11.2015.
  */
@@ -16,6 +18,7 @@ public class Orders {
     private String location;
     private float longitude;
     private float latitude;
+    private ArrayList<SubOrder> subOrders;
 
     public Orders(long id, long time, long restaurantID, float price, int discount, long userId) {
         this(time, restaurantID, price, discount, userId);
@@ -119,5 +122,13 @@ public class Orders {
 
     public void setLatitude(float latitude) {
         this.latitude = latitude;
+    }
+
+    public ArrayList<SubOrder> getSubOrders() {
+        return subOrders;
+    }
+
+    public void setSubOrders(ArrayList<SubOrder> subOrders) {
+        this.subOrders = subOrders;
     }
 }

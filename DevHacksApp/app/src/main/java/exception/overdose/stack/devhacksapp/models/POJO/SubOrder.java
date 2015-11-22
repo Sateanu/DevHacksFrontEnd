@@ -5,10 +5,10 @@ package exception.overdose.stack.devhacksapp.models.POJO;
  */
 public class SubOrder {
 
-    private long Id;
-    private long OrderID;
-    private long FoodID;
-    private int Quantity;
+    private long id;
+    private long orderID;
+    private long foodID;
+    private int quantity;
 
     public SubOrder()
     {
@@ -17,46 +17,46 @@ public class SubOrder {
 
     public SubOrder(long OrderID, long FoodID, int Quantity)
     {
-        this.OrderID = OrderID;
-        this.FoodID = FoodID;
-        this.Quantity = Quantity;
+        this.orderID = OrderID;
+        this.foodID = FoodID;
+        this.quantity = Quantity;
     }
 
     public SubOrder(long Id, long OrderID, long FoodID, int Quantity)
     {
         this(OrderID, FoodID, Quantity);
-        this.Id = Id;
+        this.id = Id;
     }
 
     public long getId() {
-        return Id;
+        return id;
     }
 
     public void setId(long id) {
-        Id = id;
+        this.id = id;
     }
 
     public long getOrderID() {
-        return OrderID;
+        return orderID;
     }
 
     public void setOrderID(long orderID) {
-        OrderID = orderID;
+        this.orderID = orderID;
     }
 
     public long getFoodID() {
-        return FoodID;
+        return foodID;
     }
 
     public void setFoodID(long foodID) {
-        FoodID = foodID;
+        this.foodID = foodID;
     }
 
     public int getQuantity() {
-        return Quantity;
+        return quantity;
     }
 
     public void setQuantity(int quantity) {
-        Quantity = quantity;
+        this.quantity = quantity;
     }
 }
