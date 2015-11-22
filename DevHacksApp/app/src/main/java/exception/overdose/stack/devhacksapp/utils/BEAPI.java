@@ -201,9 +201,17 @@ public class BEAPI {
             // Request parameters and other properties.
             List<NameValuePair> postParams = new ArrayList<>();
             params[0].setSubOrders(subOrders);
-            postParams.add(new BasicNameValuePair("order", new Gson().toJson(params[0])));
+            StringEntity paramsString = null;
             try {
-                httppost.setEntity(new UrlEncodedFormEntity(postParams, "UTF-8"));
+                paramsString = new StringEntity(new Gson().toJson(params[0]));
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+            httppost.addHeader("content-type", "application/json");
+            httppost.setEntity(paramsString);
+            postParams.add(new BasicNameValuePair("data", new Gson().toJson(params[0])));
+            try {
+//                httppost.setEntity(new UrlEncodedFormEntity(postParams, "UTF-8"));
 
             //Execute and get the response.
             HttpResponse response = httpclient.execute(httppost);
