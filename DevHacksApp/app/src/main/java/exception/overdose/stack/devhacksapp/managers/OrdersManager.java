@@ -20,6 +20,7 @@ public class OrdersManager {
     private Context context;
 
     private ArrayList<Orders> orderses;
+    private ArrayList<Restaurant> popular;
     OrderDataSource orderDataSource;
 
     private OrdersManager(Context context)
@@ -52,6 +53,33 @@ public class OrdersManager {
     public ArrayList<Orders> getOrderses()
     {
         return orderses;
+    }
+
+    public ArrayList<Restaurant> getPopular()
+    {
+        return popular;
+    }
+
+    public void setPopular(ArrayList<Orders> orders)
+    {
+        RestaurantDataSource restaurantDataSource = new RestaurantDataSource(context);
+        restaurantDataSource.open();
+        ArrayList<Restaurant> popular = new ArrayList<>();
+        for(Orders order : orders)
+        {
+            Restaurant restaurant = restaurantDataSource.getRestaurant(order.getRestaurantID());
+            if(!popular.contains(restaurant))
+            {
+                restaurant.setPeople(1);
+                popular.add(restaurant);
+            }
+            else{
+                popular.get(popular.indexOf(restaurant)).setPeople(popular.get(popular.indexOf(restaurant)).getPeople() + 1);
+            }
+        }
+        restaurantDataSource.closeHelper();
+
+        this.popular = popular;
     }
 
     public void addOrder(Orders orders)

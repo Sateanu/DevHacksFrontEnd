@@ -17,6 +17,7 @@ import java.util.Calendar;
 
 import exception.overdose.stack.devhacksapp.R;
 import exception.overdose.stack.devhacksapp.database.FoodDataSource;
+import exception.overdose.stack.devhacksapp.database.RestaurantDataSource;
 import exception.overdose.stack.devhacksapp.managers.OrdersManager;
 import exception.overdose.stack.devhacksapp.managers.RestaurantsManager;
 import exception.overdose.stack.devhacksapp.models.MainModel;
@@ -111,6 +112,10 @@ public class NewOrderActivity  extends AppCompatActivity {
             {
                 long restaurantId =getIntent().getExtras().getLong(Constants.RESTAURANT_ID);
                 model.setNewOrder(new Orders(-1, restaurantId, 0, 0, RestaurantsManager.getRestaurantsManager().getMyId()));
+                RestaurantDataSource restaurantDataSource = new RestaurantDataSource(activity);
+                restaurantDataSource.open();
+                model.setRestaurantName(restaurantDataSource.getRestaurant(restaurantId).getName());
+                restaurantDataSource.closeHelper();
 
                 FoodDataSource foodDataSource = new FoodDataSource(activity);
                 foodDataSource.open();

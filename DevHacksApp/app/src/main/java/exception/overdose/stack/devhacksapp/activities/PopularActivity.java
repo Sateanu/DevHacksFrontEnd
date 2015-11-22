@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import exception.overdose.stack.devhacksapp.R;
+import exception.overdose.stack.devhacksapp.managers.OrdersManager;
 import exception.overdose.stack.devhacksapp.managers.RestaurantsManager;
 import exception.overdose.stack.devhacksapp.models.MainModel;
 import exception.overdose.stack.devhacksapp.models.PopularModel;
@@ -60,7 +61,7 @@ public class PopularActivity extends AppCompatActivity {
     {
         super.onResume();
 
-        model.setRestaurants(RestaurantsManager.getRestaurantsManager().getRestaurants(), true);
+        model.setRestaurants(OrdersManager.getOrdersManager().getPopular(), true);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package exception.overdose.stack.devhacksapp.views.adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,9 +56,11 @@ public class RestaurantsAdapter extends BaseAdapter implements StickyListHeaders
             }
         });
 
+        Log.i("header2", currentItems.size() + "");
         for (int i = 0; i < currentItems.size(); i++) {
             if(indexer.get(currentItems.get(i).getSpecific()+ "") == null)
             {
+                Log.i("header1", currentItems.get(i).getSpecific());
                 indexer.put(currentItems.get(i).getSpecific() + "", i);
             }
         }
@@ -94,6 +97,7 @@ public class RestaurantsAdapter extends BaseAdapter implements StickyListHeaders
             holder.specificTextView = (TextView) convertView.findViewById(R.id.row_restaurant_specific_textview);
             holder.locationTextView = (TextView) convertView.findViewById(R.id.row_restaurant_location_textview);
             holder.restaurantLogoImageView= (ImageView) convertView.findViewById(R.id.row_restaurant_restaurant_logo_imageview);
+            holder.persoaneTextView = (TextView) convertView.findViewById(R.id.row_restaurant_persoane_textview);
 
             convertView.setTag(holder);
         } else {
@@ -103,6 +107,17 @@ public class RestaurantsAdapter extends BaseAdapter implements StickyListHeaders
         holder.nameTextView.setText(currentItems.get(position).getName());
         holder.specificTextView.setText(currentItems.get(position).getSpecific());
         holder.locationTextView.setText(currentItems.get(position).getLocation());
+
+        if(currentItems.get(position).getPeople() > 0)
+        {
+            holder.persoaneTextView.setText(currentItems.get(position).getPeople() + " people are ordering");
+            holder.persoaneTextView.setVisibility(View.VISIBLE);
+        }
+        else
+        {
+            holder.persoaneTextView.setVisibility(View.GONE);
+        }
+
 
         return convertView;
     }
@@ -165,13 +180,20 @@ public class RestaurantsAdapter extends BaseAdapter implements StickyListHeaders
 
     @Override
     public long getHeaderId(int i) {
-        return i;//currentItems.get(i).getSpecific();
+        Log.i("header", i + " ");
+        Log.i("header", i + " " + currentItems.get(i).getSpecific());
+        if(indexer.get(currentItems.get(i).getSpecific()) != null)
+        {
+            return indexer.get(currentItems.get(i).getSpecific() + "");//currentItems.get(i).getSpecific();
+        }
+        return 0;
     }
     private static class ViewHolder {
         TextView nameTextView;
         TextView specificTextView;
         TextView locationTextView;
         ImageView restaurantLogoImageView;
+        TextView persoaneTextView;
     }
 
     public static class DividerViewHolder {

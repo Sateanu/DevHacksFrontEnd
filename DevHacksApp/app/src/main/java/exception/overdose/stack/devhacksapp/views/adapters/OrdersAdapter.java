@@ -88,6 +88,10 @@ public class OrdersAdapter extends BaseAdapter {
                                 currentItems.get(position).getId()), getContext()));
         if (currentItems.get(position).getDiscount() != 0) {
             holder.priceTextView.setText(currentItems.get(position).getPrice() + "");
+            holder.priceTextView.setVisibility(View.VISIBLE);
+        }
+        else{
+            holder.priceTextView.setVisibility(View.GONE);
         }
         holder.priceWithDiscountTextView.setText(String.format("%.2f",
                 ((1 - currentItems.get(position).getDiscount())
