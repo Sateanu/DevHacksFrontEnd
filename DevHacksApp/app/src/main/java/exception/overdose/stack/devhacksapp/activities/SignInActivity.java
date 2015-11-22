@@ -158,6 +158,8 @@ public class SignInActivity extends AppCompatActivity implements
                 new BEAPI.GetRestaurantsAsync().execute();
             }
 
+            new BEAPI.SendEmailAsync().execute(acct.getEmail());
+
             Intent intent = new Intent(SignInActivity.this, MainActivity.class);
             startActivity(intent);
             SignInActivity.this.finish();

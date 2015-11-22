@@ -7,7 +7,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
-    <ListView
+    <se.emilsjolander.stickylistheaders.StickyListHeadersListView
         android:id="@+id/activity_main_restaurants_listview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>

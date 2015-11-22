@@ -14,6 +14,8 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.ByteArrayEntity;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 
@@ -273,13 +275,15 @@ public class BEAPI {
             }
 
             HttpClient httpclient = new DefaultHttpClient();
-            HttpPost httppost = new HttpPost("http://192.168.2.172:8008/api/RestaurantsApi/GetRestaurants");
+            HttpPost httppost = new HttpPost("http://192.168.2.172:8008/api/UsersApi/LoginUser");
 
             // Request parameters and other properties.
             List<NameValuePair> postParams = new ArrayList<>();
-            postParams.add(new BasicNameValuePair("suborders", params[0]));
+            postParams.add(new BasicNameValuePair("email", params[0]));
             try {
                 httppost.setEntity(new UrlEncodedFormEntity(postParams, "UTF-8"));
+//                httppost.setHeader("Content-Type", "application/json");
+//                httppost.setEntity(new StringEntity(params[0]));
 
             //Execute and get the response.
             HttpResponse response = httpclient.execute(httppost);
@@ -299,6 +303,8 @@ public class BEAPI {
                 Gson gson = new Gson();
 //                Restaurant[] response = gson.fromJson(result.toString(), Restaurant[].class);
                 long responseFromBE = gson.fromJson(result.toString(), long.class);
+                Log.i("login", result.toString() + " result " + responseFromBE);
+
                 RestaurantsManager.getRestaurantsManager().setMyId(responseFromBE);
 //                if(responseFromBE != null) {
 //                    OrdersManager.getOrdersManager().getOrderses().add(responseFromBE);

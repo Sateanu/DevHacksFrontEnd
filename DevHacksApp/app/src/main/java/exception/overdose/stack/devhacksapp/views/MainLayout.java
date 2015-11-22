@@ -11,6 +11,7 @@ import exception.overdose.stack.devhacksapp.R;
 import exception.overdose.stack.devhacksapp.interfaces.mvc.OnChangeListener;
 import exception.overdose.stack.devhacksapp.models.MainModel;
 import exception.overdose.stack.devhacksapp.views.adapters.RestaurantsAdapter;
+import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
 public class MainLayout extends RelativeLayout implements OnChangeListener<MainModel> {
 
@@ -19,7 +20,7 @@ public class MainLayout extends RelativeLayout implements OnChangeListener<MainM
     private MainModel model;
     private ViewListener viewListener;
 
-    private ListView restaurantsListView;
+    private StickyListHeadersListView restaurantsListView;
     private RestaurantsAdapter restaurantsAdapter;
 
     public interface ViewListener {
@@ -45,7 +46,8 @@ public class MainLayout extends RelativeLayout implements OnChangeListener<MainM
     }
 
     private void initLayout() {
-        restaurantsListView = (ListView) findViewById(R.id.activity_main_restaurants_listview);
+        restaurantsListView = (StickyListHeadersListView) findViewById(R.id.activity_main_restaurants_listview);
+        restaurantsListView.setFastScrollEnabled(true);
     }
 
     private void initToolbar() {
