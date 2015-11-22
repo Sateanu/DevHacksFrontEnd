@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<exception.overdose.stack.devhacksapp.views.NewOrderLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                           xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                           android:orientation="vertical"
+                                                           android:layout_width="match_parent"
+                                                           android:layout_height="match_parent">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/activity_new_order_app_bar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/activity_new_order_toolbar"
+            app:layout_scrollFlags="scroll|enterAlways"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:theme="@style/ActionBarThemeOverlay" />
+    </android.support.design.widget.AppBarLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/activity_horizontal_margin">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Order value"
+            android:textSize="@dimen/text_size_large"
+            android:textStyle="bold"/>
+        <TextView
+            android:id="@+id/activity_neworder_price_textview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="45.00 RON"/>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/activity_neworder_time_linearlayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/activity_horizontal_margin"
+        android:orientation="vertical"
+        android:clickable="true">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Time"
+            android:textSize="@dimen/text_size_large"
+            android:textStyle="bold"/>
+        <TextView
+            android:id="@+id/activity_neworder_time_textview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/activity_horizontal_margin"
+        android:clickable="true">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Address"
+        android:textSize="@dimen/text_size_large"
+        android:textStyle="bold"/>
+        <RelativeLayout
+            android:id="@+id/activity_neworder_map_relativelayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp">
+        <ImageView
+            android:id="@+id/activity_neworder_maps_imageview"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:background="@drawable/ic_mode_edit_black_24dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Use map"
+                android:layout_toRightOf="@+id/activity_neworder_maps_imageview"
+                android:textSize="@dimen/activity_vertical_margin"/>
+        </RelativeLayout>
+    </LinearLayout>
+    <EditText
+        android:id="@+id/activity_neworder_address_edittext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:minLines="4"
+        android:maxLines="4"/>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Your order"
+        android:textSize="@dimen/text_size_large"
+        android:textStyle="bold"/>
+    <ListView
+        android:id="@+id/activity_neworder_suborders_listview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"></ListView>
+
+
+</exception.overdose.stack.devhacksapp.views.NewOrderLayout>

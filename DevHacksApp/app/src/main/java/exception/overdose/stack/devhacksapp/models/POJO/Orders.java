@@ -13,6 +13,9 @@ public class Orders {
     private long userId;
     private long clusterId;
     private int done;
+    private String location;
+    private float longitude;
+    private float latitude;
 
     public Orders(long id, long time, long restaurantID, float price, int discount, long userId) {
         this(time, restaurantID, price, discount, userId);
@@ -84,5 +87,37 @@ public class Orders {
 
     public void setClusterId(long clusterId) {
         this.clusterId = clusterId;
+    }
+
+    public int getDone() {
+        return done;
+    }
+
+    public void setDone(int done) {
+        this.done = done;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public float getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(float longitude) {
+        this.longitude = longitude;
+    }
+
+    public float getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(float latitude) {
+        this.latitude = latitude;
     }
 }

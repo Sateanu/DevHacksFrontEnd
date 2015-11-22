@@ -154,7 +154,7 @@ public class RestaurantsAdapter extends BaseAdapter implements StickyListHeaders
             holder = (DividerViewHolder) convertView.getTag();
         }
 
-        holder.groupName.setText("Header: " + currentItems.get(i).getSpecific());
+        holder.groupName.setText(currentItems.get(i).getSpecific());
 
         return convertView;
     }

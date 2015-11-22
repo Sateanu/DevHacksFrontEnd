@@ -112,7 +112,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                         COLUMN_ORDER_TIME + " integer," +
                         COLUMN_ORDER_RESTAURANTID + " integer," +
                         COLUMN_ORDER_DISCOUNT + " integer," +
-                        COLUMN_ORDER_USER_ID + " integer)"
+                        COLUMN_ORDER_USER_ID + " integer,"+
+                        COLUMN_RESTAURANT_LOCATION + " text, " +
+                        COLUMN_RESTAURANT_LONGITUDE + " real, " +
+                        COLUMN_RESTAURANT_LATITUDE + " real)"
         );
 
         mydb = db;

@@ -53,7 +53,7 @@ public class SubordersAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         final ViewHolder holder;
         if (convertView == null) {
-            convertView = layoutInflater.inflate(R.layout.row_order, parent, false);
+            convertView = layoutInflater.inflate(R.layout.row_suborder, parent, false);
 
             holder = new ViewHolder();
             holder.quantityTextView = (TextView) convertView.findViewById(R.id.row_suborder_quantity_textview);
@@ -63,7 +63,7 @@ public class SubordersAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        holder.quantityTextView.setText(currentItems.get(position).getQuantity());
+        holder.quantityTextView.setText(currentItems.get(position).getQuantity() + "");
         holder.foodNameTextView.setText(foodDataSource.getFood(currentItems.get(position).getFoodID()).getName());
         holder.foodDescriptionTextView.setText(foodDataSource.getFood(currentItems.get(position).getFoodID()).getDescription());
         return convertView;

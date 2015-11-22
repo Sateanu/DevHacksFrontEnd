@@ -103,6 +103,9 @@ public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMapCl
         Intent intent = new Intent();
         intent.putExtra(Constants.LOCATION, location);
         intent.putExtra(Constants.COORDINATES, coordinates);
+        intent.putExtra("location", location);
+        intent.putExtra("longitude", coordinates.split(" ")[0]);
+        intent.putExtra("latitude", coordinates.split(" ")[1]);
         setResult(RESULT_OK, intent);
         finish();
     }
@@ -157,5 +160,7 @@ public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMapCl
                     .position(new LatLng(latitude, longitude))
                     .title(getAddress(latitude, longitude)));
         }
+        coordinates = longitude + " " + latitude;
+        location = getAddress(latitude, longitude);
     }
 }

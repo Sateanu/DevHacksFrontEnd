@@ -144,14 +144,25 @@ public class OrderDataSource extends BaseDataSource {
         Integer columnOrderTime = cursor.getColumnIndex(DatabaseHelper.COLUMN_ORDER_TIME);
         Integer columnOrderUserId = cursor.getColumnIndex(DatabaseHelper.COLUMN_ORDER_USER_ID);
 
+        Integer columnRestaurantLocationIndex = cursor.getColumnIndex(DatabaseHelper.COLUMN_RESTAURANT_LOCATION);
+        Integer columnRestaurantLongitudeIndex = cursor.getColumnIndex(DatabaseHelper.COLUMN_RESTAURANT_LONGITUDE);
+        Integer columnRestaurantLatitudeIndex = cursor.getColumnIndex(DatabaseHelper.COLUMN_RESTAURANT_LATITUDE);
+
         long id = cursor.getLong(columnIdIndex);
         float orderPrice = cursor.getFloat(columnOrderPrice);
         int orderDiscount = cursor.getInt(columnOrderDiscount);
         long orderRestaurantId = cursor.getLong(columnOrderRestaurantId);
         long orderTime = cursor.getLong(columnOrderTime);
         long userId = cursor.getLong(columnOrderUserId);
+        String location = cursor.getString(columnRestaurantLocationIndex);
+        float longitude = cursor.getFloat(columnRestaurantLongitudeIndex);
+        float latitude = cursor.getFloat(columnRestaurantLatitudeIndex);
 
-        return new Orders(id, orderTime,orderRestaurantId,orderPrice,orderDiscount, userId);
+        Orders order= new Orders(id, orderTime,orderRestaurantId,orderPrice,orderDiscount, userId);
+        order.setLocation(location);
+        order.setLatitude(latitude);
+        order.setLongitude(longitude);
+        return order;
     }
     private ContentValues getOrderContentValues(Orders orders) {
         ContentValues contentValues = new ContentValues();
@@ -162,6 +173,10 @@ public class OrderDataSource extends BaseDataSource {
         contentValues.put(DatabaseHelper.COLUMN_ORDER_RESTAURANTID, orders.getRestaurantID());
         contentValues.put(DatabaseHelper.COLUMN_ORDER_TIME, orders.getTime());
         contentValues.put(DatabaseHelper.COLUMN_ORDER_USER_ID, orders.getUserId());
+
+        contentValues.put(DatabaseHelper.COLUMN_RESTAURANT_LOCATION, orders.getLocation());
+        contentValues.put(DatabaseHelper.COLUMN_RESTAURANT_LONGITUDE, orders.getLongitude());
+        contentValues.put(DatabaseHelper.COLUMN_RESTAURANT_LATITUDE, orders.getLatitude());
 
         return contentValues;
     }

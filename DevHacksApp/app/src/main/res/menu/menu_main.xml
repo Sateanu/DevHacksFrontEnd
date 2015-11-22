@@ -1,9 +1,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
       xmlns:app="http://schemas.android.com/apk/res-auto"
       xmlns:tools="http://schemas.android.com/tools">
-      <item android:id="@+id/menu_main_action_save"
-          android:title="@string/action_save"
+      <item android:id="@+id/menu_main_action_history"
+          android:title="History"
           android:orderInCategory="100"
-          app:showAsAction="always"
-          android:icon="@drawable/ic_check_white_36dp"/>
+          app:showAsAction="never"/>
+      <item android:id="@+id/menu_main_action_popular"
+          android:title="Most Popular"
+          android:orderInCategory="100"
+          app:showAsAction="never"/>
 </menu>
