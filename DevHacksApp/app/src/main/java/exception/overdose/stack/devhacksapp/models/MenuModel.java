@@ -19,6 +19,8 @@ public class MenuModel extends SimpleObservable<MenuModel> {
     private FoodDataSource foodDataSource;
 
     public ArrayList<Food> getFoods() {
+        if(foods==null)
+            foods=new ArrayList<>();
         return foods;
     }
 

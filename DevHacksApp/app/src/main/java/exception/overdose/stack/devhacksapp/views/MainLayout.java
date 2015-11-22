@@ -1,5 +1,6 @@
 package exception.overdose.stack.devhacksapp.views;
 
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.content.Context;
@@ -24,6 +25,7 @@ public class MainLayout extends RelativeLayout implements OnChangeListener<MainM
     private RestaurantsAdapter restaurantsAdapter;
 
     public interface ViewListener {
+        void onItemClicked(int position);
     }
 
     public MainLayout(Context context) {
@@ -48,6 +50,12 @@ public class MainLayout extends RelativeLayout implements OnChangeListener<MainM
     private void initLayout() {
         restaurantsListView = (StickyListHeadersListView) findViewById(R.id.activity_main_restaurants_listview);
         restaurantsListView.setFastScrollEnabled(true);
+        restaurantsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                getViewListener().onItemClicked(position);
+            }
+        });
     }
 
     private void initToolbar() {

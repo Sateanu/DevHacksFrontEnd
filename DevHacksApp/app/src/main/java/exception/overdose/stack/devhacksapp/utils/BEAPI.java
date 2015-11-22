@@ -35,6 +35,7 @@ import java.util.List;
 import exception.overdose.stack.devhacksapp.database.RestaurantDataSource;
 import exception.overdose.stack.devhacksapp.managers.OrdersManager;
 import exception.overdose.stack.devhacksapp.managers.RestaurantsManager;
+import exception.overdose.stack.devhacksapp.models.POJO.Food;
 import exception.overdose.stack.devhacksapp.models.POJO.Orders;
 import exception.overdose.stack.devhacksapp.models.POJO.Restaurant;
 import exception.overdose.stack.devhacksapp.models.POJO.SubOrder;
@@ -67,10 +68,7 @@ public class BEAPI {
                 if(response.length > 0)
                 {
                     RestaurantsManager.getRestaurantsManager().setRestaurants(new ArrayList<>(Arrays.asList(response)));
-//                    for(Restaurant restaurant : response)
-//                    {
-//                        Log.i("restaurant:", restaurant.getName() + " " + restaurant.getLatitude() + " " + restaurant.getSpecific());
-//                    }
+
                 }
             }
             catch (Exception e)
@@ -79,6 +77,14 @@ public class BEAPI {
             }
 //            return response;
             return null;
+        }
+        @Override
+        protected  void onPostExecute(Void param){
+            for(Restaurant restaurant :  RestaurantsManager.getRestaurantsManager().getRestaurants())
+            {
+                new GetFoodsAsync().execute(restaurant.getId());
+                Log.i("restaurant:", restaurant.getName() + " " + restaurant.getLatitude() + " " + restaurant.getSpecific());
+            }
         }
 
     }
@@ -110,6 +116,56 @@ public class BEAPI {
 //                    {
 //                        Log.i("restaurant:", restaurant.getName() + " " + restaurant.getLatitude() + " " + restaurant.getSpecific());
 //                    }
+                }
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+//            return response;
+            return null;
+        }
+
+    }
+    public static class GetFoodsAsync extends AsyncTask<Long, Void, Void>
+    {
+
+        @Override
+        protected Void doInBackground(Long... params) {
+            if(params.length==0)
+                return null;
+            StringBuilder result = new StringBuilder();
+            try {
+                URL url = new URL("http://192.168.2.172:8008/api/FoodsApi/GetFoods");
+                HttpGet httpGet=new HttpGet("http://192.168.2.172:8008/api/FoodsApi/GetFoods/"+params[0]);
+//                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+//                conn.setRequestMethod("GET");
+                HttpClient httpclient = new DefaultHttpClient();
+                httpGet.getParams().setLongParameter("id",params[0]);
+                //Execute and get the response.
+                HttpResponse responseHttp = httpclient.execute(httpGet);
+                HttpEntity entity = responseHttp.getEntity();
+
+                if (entity != null) {
+                    InputStream instream = entity.getContent();
+                    BufferedReader rd = new BufferedReader(new InputStreamReader(instream));
+                    String line;
+                    while ((line = rd.readLine()) != null) {
+                        result.append(line);
+                    }
+                    rd.close();
+
+                    Gson gson = new Gson();
+//                Restaurant[] response = gson.fromJson(result.toString(), Restaurant[].class);
+                    Food[] response = gson.fromJson(result.toString(), Food[].class);
+                    Log.i("orders:", result.toString() );
+                    if (response.length > 0) {
+                        RestaurantsManager.getRestaurantsManager().setFoods(new ArrayList<>(Arrays.asList(response)));
+//                    for(Restaurant restaurant : response)
+//                    {
+//                        Log.i("restaurant:", restaurant.getName() + " " + restaurant.getLatitude() + " " + restaurant.getSpecific());
+//                    }
+                    }
                 }
             }
             catch (Exception e)
@@ -265,12 +321,10 @@ public class BEAPI {
 
     }
 
-    public static class SendEmailAsync extends AsyncTask<String, Void, Void>
-    {
+    public static class SendEmailAsync extends AsyncTask<String, Void, Void> {
         @Override
         protected Void doInBackground(String... params) {
-            if(params.length == 0)
-            {
+            if (params.length == 0) {
                 return null;
             }
 
@@ -285,40 +339,39 @@ public class BEAPI {
 //                httppost.setHeader("Content-Type", "application/json");
 //                httppost.setEntity(new StringEntity(params[0]));
 
-            //Execute and get the response.
-            HttpResponse response = httpclient.execute(httppost);
-            HttpEntity entity = response.getEntity();
+                //Execute and get the response.
+                HttpResponse response = httpclient.execute(httppost);
+                HttpEntity entity = response.getEntity();
 
-            if (entity != null) {
-                InputStream instream = entity.getContent();
+                if (entity != null) {
+                    InputStream instream = entity.getContent();
 
-                StringBuilder result = new StringBuilder();
-                BufferedReader rd = new BufferedReader(new InputStreamReader(instream));
-                String line;
-                while ((line = rd.readLine()) != null) {
-                    result.append(line);
-                }
-                rd.close();
+                    StringBuilder result = new StringBuilder();
+                    BufferedReader rd = new BufferedReader(new InputStreamReader(instream));
+                    String line;
+                    while ((line = rd.readLine()) != null) {
+                        result.append(line);
+                    }
+                    rd.close();
 
-                Gson gson = new Gson();
+                    Gson gson = new Gson();
 //                Restaurant[] response = gson.fromJson(result.toString(), Restaurant[].class);
-                long responseFromBE = gson.fromJson(result.toString(), long.class);
-                Log.i("login", result.toString() + " result " + responseFromBE);
+                    long responseFromBE = gson.fromJson(result.toString(), long.class);
+                    Log.i("login", result.toString() + " result " + responseFromBE);
 
-                RestaurantsManager.getRestaurantsManager().setMyId(responseFromBE);
+                    RestaurantsManager.getRestaurantsManager().setMyId(responseFromBE);
 //                if(responseFromBE != null) {
 //                    OrdersManager.getOrdersManager().getOrderses().add(responseFromBE);
 //                }
 
-                try {
-                    // do something useful
-                } finally {
-                    instream.close();
+                    try {
+                        // do something useful
+                    } finally {
+                        instream.close();
+                    }
+                } else {
+                    throw new Exception();
                 }
-            }
-            else {
-                throw new Exception();
-            }
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (Exception e) {

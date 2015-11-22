@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -259,6 +260,7 @@ public class FoodDataSource extends BaseDataSource {
             if (cursor.moveToFirst()) {
                 do {
                     foods.add(cursorToFood(cursor));
+                    Log.i("fooddb", foods.get(foods.size() - 1).getName());
                 } while (cursor.moveToNext());
             }
             cursor.close();

@@ -5,20 +5,21 @@ package exception.overdose.stack.devhacksapp.models.POJO;
  */
 public class Food {
 
-    private long Id;
-    private String Name;
-    private float Price;
-    private long RestaurantID;
-    private String Description;
-    private String Category;
+    private long id;
+    private String name;
+    private float price;
+    private long restaurantID;
+    private String description;
+    private String category;
+    private String image;
 
     public Food(long id, String name, float price, long restaurantID, String category, String description) {
-        Id = id;
-        Name = name;
-        Price = price;
-        RestaurantID = restaurantID;
-        Category = category;
-        Description = description;
+        this.id = id;
+        this.name = name;
+        this.price = price;
+        this.restaurantID = restaurantID;
+        this.category = category;
+        this.description = description;
     }
 
     public Food() {
@@ -26,50 +27,58 @@ public class Food {
     }
 
     public long getId() {
-        return Id;
+        return id;
     }
 
     public void setId(long id) {
-        Id = id;
+        this.id = id;
     }
 
     public String getName() {
-        return Name;
+        return name;
     }
 
     public void setName(String name) {
-        Name = name;
+        this.name = name;
     }
 
     public float getPrice() {
-        return Price;
+        return price;
     }
 
     public void setPrice(float price) {
-        Price = price;
+        this.price = price;
     }
 
     public long getRestaurantID() {
-        return RestaurantID;
+        return restaurantID;
     }
 
     public void setRestaurantID(long restaurantID) {
-        RestaurantID = restaurantID;
+        this.restaurantID = restaurantID;
     }
 
     public String getDescription() {
-        return Description;
+        return description;
     }
 
     public void setDescription(String description) {
-        Description = description;
+        this.description = description;
     }
 
     public String getCategory() {
-        return Category;
+        return category;
     }
 
     public void setCategory(String category) {
-        Category = category;
+        this.category = category;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 }

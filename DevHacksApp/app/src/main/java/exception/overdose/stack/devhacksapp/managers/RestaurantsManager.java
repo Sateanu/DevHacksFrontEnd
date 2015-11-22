@@ -1,11 +1,15 @@
 package exception.overdose.stack.devhacksapp.managers;
 
 import android.content.Context;
+import android.util.Log;
 
 import java.util.ArrayList;
 
+import exception.overdose.stack.devhacksapp.database.FoodDataSource;
 import exception.overdose.stack.devhacksapp.database.RestaurantDataSource;
+import exception.overdose.stack.devhacksapp.models.POJO.Food;
 import exception.overdose.stack.devhacksapp.models.POJO.Restaurant;
+import exception.overdose.stack.devhacksapp.models.POJO.SubOrder;
 import exception.overdose.stack.devhacksapp.utils.Constants;
 import exception.overdose.stack.devhacksapp.utils.PrefUtils;
 
@@ -18,9 +22,10 @@ public class RestaurantsManager {
     private Context context;
 
     private ArrayList<Restaurant> restaurants;
+    private ArrayList<Food> foods;
+    private ArrayList<SubOrder> subOrders;
 
-    private RestaurantsManager(Context context)
-    {
+    private RestaurantsManager(Context context) {
 //        restaurants = new ArrayList<>();
 
         RestaurantDataSource restaurantDataSource = new RestaurantDataSource(context);
@@ -29,47 +34,70 @@ public class RestaurantsManager {
         restaurants = restaurantDataSource.getAllRestaurants();
 
         restaurantDataSource.closeHelper();
+
+        FoodDataSource foodDataSource = new FoodDataSource(context);
+        foodDataSource.open();
+
+        foods = foodDataSource.getAllFoods();
+
+        foodDataSource.closeHelper();
     }
 
-    public static RestaurantsManager getRestaurantsManager(Context context)
-    {
-        if(instance == null)
-        {
+    public static RestaurantsManager getRestaurantsManager(Context context) {
+        if (instance == null) {
             instance = new RestaurantsManager(context);
         }
         instance.context = context;
         return instance;
     }
 
-    public static RestaurantsManager getRestaurantsManager()
-    {
+    public static RestaurantsManager getRestaurantsManager() {
         return instance;
     }
 
-    public ArrayList<Restaurant> getRestaurants()
-    {
+    public ArrayList<Restaurant> getRestaurants() {
         return restaurants;
     }
 
-    public void setRestaurants(ArrayList<Restaurant> restaurants)
-    {
+    public void setRestaurants(ArrayList<Restaurant> restaurants) {
         this.restaurants = restaurants;
         RestaurantDataSource restaurantDataSource = new RestaurantDataSource(context);
         restaurantDataSource.open();
-        for(Restaurant restaurant : restaurants)
-        {
+        for (Restaurant restaurant : restaurants) {
             restaurantDataSource.insertRestaurant(restaurant);
         }
         restaurantDataSource.closeHelper();
     }
 
-    public void setMyId(long id)
-    {
+    public ArrayList<Food> getFoods() {
+        return foods;
+    }
+
+    public void setFoods(ArrayList<Food> foods) {
+        this.foods = foods;
+
+        FoodDataSource foodDataSource = new FoodDataSource(context);
+        foodDataSource.open();
+        for (Food food : foods) {
+            foodDataSource.insertFood(food);
+            Log.i("foodManager", food.getName());
+        }
+        foodDataSource.closeHelper();
+    }
+
+    public void setMyId(long id) {
         PrefUtils.setLongToPrefs(context, Constants.PREF_MY_ID, id);
     }
 
-    public long getMyId()
-    {
+    public long getMyId() {
         return PrefUtils.getLongFromPrefs(context, Constants.PREF_MY_ID, 0);
+    }
+
+    public ArrayList<SubOrder> getSubOrders() {
+        return subOrders;
+    }
+
+    public void setSubOrders(ArrayList<SubOrder> subOrders) {
+        this.subOrders = subOrders;
     }
 }

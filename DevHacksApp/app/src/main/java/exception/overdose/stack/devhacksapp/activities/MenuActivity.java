@@ -16,6 +16,7 @@ import java.util.Map;
 
 import exception.overdose.stack.devhacksapp.R;
 import exception.overdose.stack.devhacksapp.database.FoodDataSource;
+import exception.overdose.stack.devhacksapp.managers.RestaurantsManager;
 import exception.overdose.stack.devhacksapp.models.MenuModel;
 import exception.overdose.stack.devhacksapp.models.POJO.SubOrder;
 import exception.overdose.stack.devhacksapp.utils.Constants;
@@ -76,13 +77,15 @@ public class MenuActivity extends AppCompatActivity {
 
         model.setFoodDataSource(new FoodDataSource(MenuActivity.this));
         model.getFoodDataSource().open();
+
+        model.setRestaurantId(restaurantId);
+        model.setFoods(model.getFoodDataSource().getFoodByRestaurantId(restaurantId));
         HashMap<Long, Integer> hashMap = new HashMap<>();
         for (int i = 0; i < model.getFoods().size(); i++) {
             hashMap.put(model.getFoods().get(i).getId(), 0);
         }
+
         model.setProductQuantities(hashMap);
-        model.setRestaurantId(restaurantId);
-        model.setFoods(model.getFoodDataSource().getFoodByRestaurantId(restaurantId));
     }
 
 
@@ -121,7 +124,7 @@ public class MenuActivity extends AppCompatActivity {
                     .setIcon(android.R.drawable.ic_dialog_alert)
                     .show();
         } else {
-            intent.putExtra(Constants.SUBORDERS, suborders);
+            RestaurantsManager.getRestaurantsManager().setSubOrders(suborders);
             startActivity(intent);
         }
     }
