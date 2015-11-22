@@ -64,6 +64,15 @@ public class OrdersManager {
     public void setOrderses(ArrayList<Orders> orderses)
     {
         this.orderses = orderses;
+        OrderDataSource subOrderDataSource = new OrderDataSource(context);
+        subOrderDataSource.open();
+
+        for(Orders subOrder : orderses)
+        {
+            subOrderDataSource.insertOrder(subOrder);
+        }
+
+        subOrderDataSource.closeHelper();
     }
 
     public void insertSubOrders(long orderId, ArrayList<SubOrder> subOrders)

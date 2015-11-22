@@ -2,8 +2,8 @@ package exception.overdose.stack.devhacksapp.activities;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -11,18 +11,20 @@ import android.view.View;
 import exception.overdose.stack.devhacksapp.R;
 import exception.overdose.stack.devhacksapp.managers.RestaurantsManager;
 import exception.overdose.stack.devhacksapp.models.MainModel;
+import exception.overdose.stack.devhacksapp.models.PopularModel;
 import exception.overdose.stack.devhacksapp.utils.Constants;
 import exception.overdose.stack.devhacksapp.views.MainLayout;
+import exception.overdose.stack.devhacksapp.views.PopularLayout;
 
-public class MainActivity extends AppCompatActivity {
+public class PopularActivity extends AppCompatActivity {
 
     private final String TAG = "MvcActivity";
 
     private Activity activity;
 
-    private MainLayout layout;
-    private MainModel model;
-    private MainLayout.ViewListener viewListener = new MainLayout.ViewListener() {
+    private PopularLayout layout;
+    private PopularModel model;
+    private PopularLayout.ViewListener viewListener = new PopularLayout.ViewListener() {
         @Override
         public void onItemClicked(int position) {
             Intent intent=new Intent(activity,MenuActivity.class);
@@ -35,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        activity = MainActivity.this;
+        activity = PopularActivity.this;
 
         initModel();
         initLayout();
@@ -44,11 +46,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initModel() {
-        model = new MainModel();
+        model = new PopularModel();
     }
 
     private void initLayout() {
-        layout = (MainLayout) View.inflate(activity, R.layout.activity_main, null);
+        layout = (PopularLayout) View.inflate(activity, R.layout.activity_popular, null);
         layout.setModel(model);
         layout.setViewListener(viewListener);
     }
@@ -64,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_popular, menu);
         return true;
     }
 
@@ -77,17 +79,6 @@ public class MainActivity extends AppCompatActivity {
 
         if (id == android.R.id.home) {
             onBackPressed();
-            return true;
-        }
-        if (id == R.id.menu_main_action_history) {
-            Intent intent=new Intent(MainActivity.this,OrdersActivity.class);
-            startActivity(intent);
-            return true;
-        }
-        if (id == R.id.menu_main_action_popular) {
-//            viewListener.onSendOrderClicked();
-            Intent intent = new Intent(activity, PopularActivity.class);
-            startActivity(intent);
             return true;
         }
 

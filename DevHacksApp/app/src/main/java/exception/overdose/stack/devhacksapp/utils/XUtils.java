@@ -15,7 +15,7 @@ public class XUtils {
     public static String getSubordersRepresentation(ArrayList<SubOrder> subOrderArrayList, Context context) {
         FoodDataSource foodDataSource = new FoodDataSource(context);
         foodDataSource.open();
-        StringBuilder subordersStringBuilder = null;
+        StringBuilder subordersStringBuilder = new StringBuilder();
         for (int i = 0; i < subOrderArrayList.size(); i++) {
             subordersStringBuilder.append(
                     subOrderArrayList.get(i).getQuantity() +

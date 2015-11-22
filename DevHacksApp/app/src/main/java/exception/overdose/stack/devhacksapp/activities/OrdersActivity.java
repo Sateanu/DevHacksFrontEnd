@@ -16,7 +16,7 @@ import exception.overdose.stack.devhacksapp.views.OrdersLayout;
 /**
  * Created by Adriana on 21/11/2015.
  */
-public class OrdersActivity extends AppCompatActivity {
+public class                        OrdersActivity extends AppCompatActivity {
 
     private final String TAG = "OrdersActivity";
 

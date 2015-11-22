@@ -8,10 +8,16 @@
         android:id="@+id/list_view_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:background="#FF6A00"
-        android:textStyle="bold|italic"
-        android:textColor="@android:color/white"
+        android:padding="16dp"
+        android:background="@color/white"
+        android:textSize="18sp"
+        android:textColor="@color/colorAccent"
         android:text="Header"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorAccent"/>
 
 </RelativeLayout>
