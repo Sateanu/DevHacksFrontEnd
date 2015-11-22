@@ -2,6 +2,7 @@ package exception.overdose.stack.devhacksapp.views;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.graphics.Paint;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
@@ -14,10 +15,14 @@ import android.widget.TextView;
 
 import exception.overdose.stack.devhacksapp.R;
 import exception.overdose.stack.devhacksapp.database.RestaurantDataSource;
+import exception.overdose.stack.devhacksapp.database.SubOrderDataSource;
 import exception.overdose.stack.devhacksapp.interfaces.mvc.OnChangeListener;
 import exception.overdose.stack.devhacksapp.models.OrdersModel;
+import exception.overdose.stack.devhacksapp.utils.Constants;
 import exception.overdose.stack.devhacksapp.utils.ViewUtils;
+import exception.overdose.stack.devhacksapp.utils.XUtils;
 import exception.overdose.stack.devhacksapp.views.adapters.OrdersAdapter;
+import exception.overdose.stack.devhacksapp.views.adapters.SubordersAdapter;
 
 /**
  * Created by Adriana on 21/11/2015.
@@ -110,24 +115,45 @@ public class OrdersLayout  extends RelativeLayout implements OnChangeListener<Or
     public void setViewListener(ViewListener viewListener) {
         this.viewListener = viewListener;
     }
-    public void showOrderDetail(int position)
+    public void showOrderDetails(int position)
     {
+        RestaurantDataSource restaurantDataSource=new RestaurantDataSource(getContext());
+        SubOrderDataSource subOrderDataSource=new SubOrderDataSource(getContext());
+        subOrderDataSource.open();
+        restaurantDataSource.open();
+
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
         RelativeLayout dialogLayout = (RelativeLayout) View.inflate(getContext(), R.layout.dialog_order_details, null);
 
         final ImageView restaurantImageView = (ImageView) dialogLayout.findViewById(R.id.dialog_order_details_restaurant_logo_imageview);
+        TextView restaurantTextView= (TextView) dialogLayout.findViewById(R.id.dialog_order_restaurant_textview);
+        TextView priceTextView=(TextView) dialogLayout.findViewById(R.id.dialog_order_details_price_textview);
+        TextView priceWithDiscountextView=(TextView) dialogLayout.findViewById(R.id.dialog_order_details_price_with_discount_textview);
+        ListView subordersListView= (ListView) dialogLayout.findViewById(R.id.dialog_order_details_listview);
+        TextView timeTextView=(TextView) dialogLayout.findViewById(R.id.dialog_order_details_time_textview);
 
         alertDialog.setView(dialogLayout);
         alertDialog.setTitle("Order details");
-        TextView restaurantTextView= (TextView) dialogLayout.findViewById(R.id.dialog_order_restaurant_textview);
-        RestaurantDataSource restaurantDataSource=new RestaurantDataSource(getContext());
-        restaurantDataSource.open();
+
         restaurantTextView.setText(restaurantDataSource.getRestaurant(getModel().getOrders().get(position).getRestaurantID()).getName());
-        TextView priceTextView=(TextView) dialogLayout.findViewById(R.id.dialog_order_details_price_textview);
         priceTextView.setText(getModel().getOrders().get(position).getPrice() + "");
-        TextView priceWithDiscountextView=(TextView) dialogLayout.findViewById(R.id.dialog_order_details_price_with_discount_textview);
-   
-        TextView date=(TextView) dialogLayout.findViewById(R.id.dialog_order_details_time_textview);
+        if (getModel().getOrders().get(position).getDiscount() != 0) {
+            priceTextView.setText(getModel().getOrders().get(position).getPrice() + "");
+        }
+        priceTextView.setPaintFlags(priceTextView.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+        priceWithDiscountextView.setText(String.format("%.2f",
+                ((1 - getModel().getOrders().get(position).getDiscount())
+                        * getModel().getOrders().get(position).getPrice())));
+        timeTextView.setText(Constants.simpleDateTimeFormat.format(getModel().getOrders().get(position).getTime()));
+        subordersListView.setAdapter(new SubordersAdapter(getContext(),subOrderDataSource.getSubOrders(getModel().getOrders().get(position).getId())));
         restaurantDataSource.closeHelper();
+        subOrderDataSource.closeHelper();
+        try {
+            alertDialog.create().show();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
     }
 }

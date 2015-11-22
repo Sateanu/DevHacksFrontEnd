@@ -12,7 +12,7 @@ public class Constants {
     public static int PROFILE_IMAGE=1;
     public static String COORDINATES="COORDINATES";
     public static String LOCATION="LOCATION";
-        public static final String EXTRA_EVENT_ID = "EXTRA_EVENT_ID";
+        public static final String RESTAURANT_ID = "RESTAURANT_ID";
         public static final String PREF_USER_ID = "PREF_USER_ID";
     public static final String PREF_USER_LOCATION_LATITUDE ="PREF_USER_LOCATION_LATITUDE";
     public static final String PREF_USER_LOCATION_LONGITUDE ="PREF_USER_LOCATION_LONGITUDE";
@@ -20,4 +20,5 @@ public class Constants {
     public static final String PREF_MY_ID ="PREF_MY_ID";
     public static final String PICK_A_LOCATION="Pick a location";
 
+    public static final String SUBORDERS ="SUBORDERS";
 }

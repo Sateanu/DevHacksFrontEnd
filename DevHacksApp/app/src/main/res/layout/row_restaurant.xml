@@ -1,21 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="@dimen/activity_horizontal_padding">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp">
     <TextView
         android:id="@+id/row_restaurant_name_textview"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Restaurant name"
+        android:textSize="@dimen/text_size_large"
+        android:textStyle="bold"
+        android:textColor="@color/black"/>
 
-    <TextView
-        android:id="@+id/row_restaurant_specific_textview"
+        <TextView
+            android:id="@+id/row_restaurant_specific_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Specific"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:textColor="@color/black"
+            android:visibility="gone"/>
+    </RelativeLayout>
+    <View
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="1dp"
+        android:background="@color/gray_light"></View>
+
 
     <TextView
         android:id="@+id/row_restaurant_location_textview"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Restaurant location"
+        android:textSize="@dimen/text_size_normal"
+        android:textColor="@color/gray"
+        android:layout_marginTop="5dp"/>
 
 </LinearLayout>

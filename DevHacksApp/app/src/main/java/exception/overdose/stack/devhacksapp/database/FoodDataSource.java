@@ -212,11 +212,11 @@ public class FoodDataSource extends BaseDataSource {
     }
 
 
-    private ArrayList<Restaurant> getRestaurantsByFoodCategory(String foodCategory) {
+    public ArrayList<Restaurant> getRestaurantsByFoodCategory(String foodCategory) {
         if (!getDatabase().isOpen()) {
             open();
         }
-        ArrayList<Restaurant> restaurants=new ArrayList<>();
+        ArrayList<Restaurant> restaurants = new ArrayList<>();
         Set<Long> restaurantIds = new HashSet<>();
         try {
             Cursor cursor = getDatabase().query(tableName,
@@ -230,9 +230,9 @@ public class FoodDataSource extends BaseDataSource {
                 } while (cursor.moveToNext());
             }
 
-            RestaurantDataSource restaurantDataSource=new RestaurantDataSource(getContext());
+            RestaurantDataSource restaurantDataSource = new RestaurantDataSource(getContext());
             restaurantDataSource.open();
-            for(Long id:restaurantIds){
+            for (Long id : restaurantIds) {
                 restaurants.add(restaurantDataSource.getRestaurant(id));
             }
             restaurantDataSource.closeHelper();
@@ -243,6 +243,32 @@ public class FoodDataSource extends BaseDataSource {
             closeDatabase();
         }
 
-            return restaurants;
-        }
+        return restaurants;
     }
+
+    public ArrayList<Food> getFoodByRestaurantId(long restaurantId) {
+        if (!getDatabase().isOpen()) {
+            open();
+        }
+        ArrayList<Food> foods = new ArrayList<>();
+        try {
+            Cursor cursor = getDatabase().query(tableName,
+                    null, DatabaseHelper.COLUMN_FOOD_RESTAURANTID + " = ?", new String[]{
+                            restaurantId + ""
+                    }, null, null, null);
+            if (cursor.moveToFirst()) {
+                do {
+                    foods.add(cursorToFood(cursor));
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            closeDatabase();
+        }
+
+        return foods;
+
+    }
+
+}

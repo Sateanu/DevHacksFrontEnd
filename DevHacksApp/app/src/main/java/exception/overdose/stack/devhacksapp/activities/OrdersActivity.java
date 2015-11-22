@@ -27,7 +27,7 @@ public class OrdersActivity extends AppCompatActivity {
     private OrdersLayout.ViewListener viewListener = new OrdersLayout.ViewListener() {
         @Override
         public void onOrderClicked(int position) {
-
+            layout.showOrderDetails(position);
         }
     };
 

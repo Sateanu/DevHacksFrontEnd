@@ -59,10 +59,10 @@ public class OrdersAdapter extends BaseAdapter {
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-        final ViewHolder holder;
+                   final ViewHolder holder;
 
-        if (convertView == null) {
-            convertView = layoutInflater.inflate(R.layout.row_order, parent, false);
+            if (convertView == null) {
+                convertView = layoutInflater.inflate(R.layout.row_order, parent, false);
 
             holder = new ViewHolder();
             holder.timeTextView = (TextView) convertView.findViewById(R.id.row_order_time_textview);
