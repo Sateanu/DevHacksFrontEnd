@@ -43,4 +43,14 @@
         android:textColor="@color/gray"
         android:layout_marginTop="5dp"/>
 
+    <TextView
+        android:id="@+id/row_restaurant_persoane_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Restaurant location"
+        android:textSize="@dimen/text_size_normal"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:layout_marginTop="5dp"/>
+
 </LinearLayout>

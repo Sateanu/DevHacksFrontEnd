@@ -11,6 +11,7 @@ import android.view.View;
 import exception.overdose.stack.devhacksapp.R;
 import exception.overdose.stack.devhacksapp.managers.RestaurantsManager;
 import exception.overdose.stack.devhacksapp.models.MainModel;
+import exception.overdose.stack.devhacksapp.utils.BEAPI;
 import exception.overdose.stack.devhacksapp.utils.Constants;
 import exception.overdose.stack.devhacksapp.views.MainLayout;
 
@@ -59,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
 
         model.setRestaurants(RestaurantsManager.getRestaurantsManager().getRestaurants(), true);
+        new BEAPI.GetOrdersAroundMeAsync(activity).execute();
     }
 
     @Override

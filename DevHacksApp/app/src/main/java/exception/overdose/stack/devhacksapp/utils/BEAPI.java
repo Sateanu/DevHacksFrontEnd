@@ -1,5 +1,6 @@
 package exception.overdose.stack.devhacksapp.utils;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -459,5 +460,110 @@ public class BEAPI {
             return null;
         }
 
+    }
+
+    public static class GetOrdersAroundMeAsync extends AsyncTask<Void, Void, Void>
+    {
+        Context context;
+        public GetOrdersAroundMeAsync(Context context)
+        {
+            this.context = context;
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+
+            Location location = new Location();
+            location.setLatitude(Float.parseFloat(PrefUtils.getStringFromPrefs(context, Constants.PREF_USER_LOCATION_LATITUDE, "0")));
+            location.setLongitude(Float.parseFloat(PrefUtils.getStringFromPrefs(context, Constants.PREF_USER_LOCATION_LONGITUDE, "0")));
+
+            HttpClient httpclient = new DefaultHttpClient();
+            HttpPost httppost = new HttpPost("http://192.168.2.172:8008/api/OrdersApi/GetOrdersAroundMe");
+
+            // Request parameters and other properties.
+            List<NameValuePair> postParams = new ArrayList<>();
+            StringEntity paramsString = null;
+            try {
+                paramsString = new StringEntity(new Gson().toJson(location));
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+            httppost.addHeader("content-type", "application/json");
+            httppost.setEntity(paramsString);
+            postParams.add(new BasicNameValuePair("data", new Gson().toJson(location)));
+            try {
+//                httppost.setEntity(new UrlEncodedFormEntity(postParams, "UTF-8"));
+
+                //Execute and get the response.
+                HttpResponse response = httpclient.execute(httppost);
+                HttpEntity entity = response.getEntity();
+
+                if (entity != null) {
+                    InputStream instream = entity.getContent();
+
+                    StringBuilder result = new StringBuilder();
+                    BufferedReader rd = new BufferedReader(new InputStreamReader(instream));
+                    String line;
+                    while ((line = rd.readLine()) != null) {
+                        result.append(line);
+                    }
+                    rd.close();
+
+                    Gson gson = new Gson();
+//                Restaurant[] response = gson.fromJson(result.toString(), Restaurant[].class);
+                    Log.i("sendorder", result.toString());
+                    Orders[] responseFromBE = gson.fromJson(result.toString(), Orders[].class);
+
+                    if(responseFromBE.length > 0)
+                    {
+                        OrdersManager.getOrdersManager().setPopular(new ArrayList<Orders>(Arrays.asList(responseFromBE)));
+                    }
+
+                    try {
+                        // do something useful
+                    } finally {
+                        instream.close();
+                    }
+                }
+                else {
+                    throw new Exception();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+//            return response;
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void param){
+//            new SendSubOrdersAsync(orderId, subOrders).execute();
+        }
+
+    }
+
+    private static class Location
+    {
+        private float latitude;
+        private float longitude;
+
+        public float getLatitude() {
+            return latitude;
+        }
+
+        public void setLatitude(float latitude) {
+            this.latitude = latitude;
+        }
+
+        public float getLongitude() {
+            return longitude;
+        }
+
+        public void setLongitude(float longitude) {
+            this.longitude = longitude;
+        }
     }
 }

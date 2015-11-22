@@ -14,6 +14,7 @@ public class NewOrderModel extends SimpleObservable<MainModel> {
     private Orders newOrder;
     private ArrayList<SubOrder> subOrders;
     private OrderDataSource eventDataSource;
+    private String restaurantName;
 
     public ArrayList<SubOrder> getSubOrders() {
         return subOrders;
@@ -43,5 +44,13 @@ public class NewOrderModel extends SimpleObservable<MainModel> {
     public void setNewOrder(Orders newOrder, boolean... notifyObservers) {
         this.newOrder = newOrder;
         update(notifyObservers);
+    }
+
+    public String getRestaurantName() {
+        return restaurantName;
+    }
+
+    public void setRestaurantName(String restaurantName) {
+        this.restaurantName = restaurantName;
     }
 }

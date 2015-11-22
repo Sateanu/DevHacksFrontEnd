@@ -11,6 +11,7 @@ public class Restaurant {
     private float longitude;
     private float latitude;
     private String location;
+    private int people;
 
     public Restaurant()
     {
@@ -78,5 +79,26 @@ public class Restaurant {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    public int getPeople() {
+        return people;
+    }
+
+    public void setPeople(int people) {
+        this.people = people;
+    }
+
+    @Override
+    public boolean equals(Object object)
+    {
+        if(object != null && object instanceof Restaurant)
+        {
+            if(((Restaurant) object).getId() == getId())
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }
