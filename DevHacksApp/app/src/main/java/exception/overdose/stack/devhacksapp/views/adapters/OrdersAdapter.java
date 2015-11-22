@@ -6,7 +6,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -70,6 +73,7 @@ public class OrdersAdapter extends BaseAdapter {
             holder.priceTextView = (TextView) convertView.findViewById(R.id.row_order_price_textview);
             holder.priceWithDiscountTextView = (TextView) convertView.findViewById(R.id.row_order_price_with_discount_textview);
             holder.subordersTextView = (TextView) convertView.findViewById(R.id.row_order_suborders_textview);
+            holder.logoImageView = (ImageView) convertView.findViewById(R.id.row_order_restaurant_logo_imageview);
             holder.priceTextView.setPaintFlags(holder.priceTextView.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
             convertView.setTag(holder);
         } else {
@@ -80,6 +84,7 @@ public class OrdersAdapter extends BaseAdapter {
         } else {
             holder.timeTextView.setTextColor(getContext().getResources().getColor(R.color.green_dark));
         }
+        ImageLoader.getInstance().displayImage(restaurantDataSource.getRestaurant(currentItems.get(position).getRestaurantID()).getUrl(), holder.logoImageView);
         holder.timeTextView.setText(Constants.simpleDateTimeFormat.format(currentItems.get(position).getTime()));
         holder.restaurantTextView.setText(restaurantDataSource.getRestaurant(currentItems.get(position).getRestaurantID()).getName());
         holder.subordersTextView.setText(
@@ -118,5 +123,6 @@ public class OrdersAdapter extends BaseAdapter {
         TextView priceTextView;
         TextView priceWithDiscountTextView;
         TextView subordersTextView;
+        ImageView logoImageView;
     }
 }

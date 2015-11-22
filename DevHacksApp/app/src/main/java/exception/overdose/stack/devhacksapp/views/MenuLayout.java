@@ -10,6 +10,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 
 import exception.overdose.stack.devhacksapp.R;
+import exception.overdose.stack.devhacksapp.database.RestaurantDataSource;
 import exception.overdose.stack.devhacksapp.interfaces.mvc.OnChangeListener;
 import exception.overdose.stack.devhacksapp.models.MenuModel;
 import exception.overdose.stack.devhacksapp.utils.ViewUtils;
@@ -71,10 +72,14 @@ public class MenuLayout extends RelativeLayout implements OnChangeListener<MenuM
     private void initToolbar() {
         toolbar = (Toolbar) findViewById(R.id.activity_menu_toolbar);
         ((AppCompatActivity) getContext()).setSupportActionBar(toolbar);
-        ViewUtils.setActionBarTitle(getContext(), getContext().getResources().getString(R.string.app_name), false);
     }
 
     private void updateView() {
+        RestaurantDataSource restaurantDataSource = new RestaurantDataSource(getContext());
+        restaurantDataSource.open();
+
+        ViewUtils.setActionBarTitle(getContext(), restaurantDataSource.getRestaurant(model.getRestaurantId()).getName(), true);
+        restaurantDataSource.closeHelper();
         if(foodAdapter == null)
         {
             foodAdapter = new FoodAdapter(getContext(), getModel());

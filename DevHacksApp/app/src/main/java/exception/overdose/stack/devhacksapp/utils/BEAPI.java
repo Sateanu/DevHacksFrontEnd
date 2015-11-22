@@ -511,7 +511,7 @@ public class BEAPI {
 
                     Gson gson = new Gson();
 //                Restaurant[] response = gson.fromJson(result.toString(), Restaurant[].class);
-                    Log.i("sendorder", result.toString());
+                    Log.i("popular", result.toString());
                     Orders[] responseFromBE = gson.fromJson(result.toString(), Orders[].class);
 
                     if(responseFromBE.length > 0)

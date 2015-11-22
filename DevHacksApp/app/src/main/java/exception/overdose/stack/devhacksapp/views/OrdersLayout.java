@@ -9,6 +9,7 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -123,7 +124,7 @@ public class OrdersLayout  extends RelativeLayout implements OnChangeListener<Or
         restaurantDataSource.open();
 
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
-        RelativeLayout dialogLayout = (RelativeLayout) View.inflate(getContext(), R.layout.dialog_order_details, null);
+        LinearLayout dialogLayout = (LinearLayout) View.inflate(getContext(), R.layout.dialog_order_details, null);
 
         final ImageView restaurantImageView = (ImageView) dialogLayout.findViewById(R.id.dialog_order_details_restaurant_logo_imageview);
         TextView restaurantTextView= (TextView) dialogLayout.findViewById(R.id.dialog_order_restaurant_textview);

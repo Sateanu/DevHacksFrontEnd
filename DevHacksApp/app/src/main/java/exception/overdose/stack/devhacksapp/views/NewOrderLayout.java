@@ -107,10 +107,11 @@ public class NewOrderLayout extends LinearLayout implements OnChangeListener<Mai
     private void initToolbar() {
         toolbar = (Toolbar) findViewById(R.id.activity_new_order_toolbar);
         ((AppCompatActivity) getContext()).setSupportActionBar(toolbar);
+        ViewUtils.setActionBarTitle(getContext(), "New order", true);
     }
 
     private void updateView() {
-        ViewUtils.setActionBarTitle(getContext(), getModel().getRestaurantName(), true);
+
         if(subordersAdapter == null)
         {
             subordersAdapter = new SubordersAdapter(getContext(), getModel().getSubOrders());
