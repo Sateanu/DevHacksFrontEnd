@@ -89,6 +89,7 @@ public class Restaurant {
 
     public void setUrl(String url) {
         this.url = url;
+    }
     public int getPeople() {
         return people;
     }
