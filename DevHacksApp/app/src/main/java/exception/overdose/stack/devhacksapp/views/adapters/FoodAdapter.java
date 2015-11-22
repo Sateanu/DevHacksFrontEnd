@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import exception.overdose.stack.devhacksapp.R;
+import exception.overdose.stack.devhacksapp.models.MenuModel;
 import exception.overdose.stack.devhacksapp.models.POJO.Food;
 
 /**
@@ -21,26 +22,28 @@ import exception.overdose.stack.devhacksapp.models.POJO.Food;
 public class FoodAdapter extends BaseAdapter {
     private LayoutInflater layoutInflater;
 
-    private List<Food> currentItems;
-    private HashMap<Long,Integer> quantities;
+    //    private List<Food> currentItems;
+//    private HashMap<Long,Integer> quantities;
+    private MenuModel menuModel;
 
     private Context context;
 
-    public FoodAdapter(Context context, List<Food> items,HashMap<Long,Integer> quantities) {
+    public FoodAdapter(Context context, MenuModel menuModel) {
         this.layoutInflater = LayoutInflater.from(context);
-        this.currentItems = items;
-        this.quantities=quantities;
+//        this.currentItems = items;
+//        this.quantities=quantities;
+        this.menuModel = menuModel;
         this.context = context;
     }
 
     @Override
     public int getCount() {
-        return currentItems.size();
+        return menuModel.getFoods().size();
     }
 
     @Override
     public Object getItem(int position) {
-        return currentItems.get(position);
+        return menuModel.getFoods().get(position);
     }
 
     @Override
@@ -67,11 +70,39 @@ public class FoodAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        holder.foodNameTextView.setText(currentItems.get(position).getName());
-        holder.descriptionTextView.setText(currentItems.get(position).getDescription());
-        holder.priceTextView.setText(currentItems.get(position).getPrice()+" RON ");
-       // holder.quantityTextView.setText();
+        holder.foodNameTextView.setText(menuModel.getFoods().get(position).getName());
+        holder.descriptionTextView.setText(menuModel.getFoods().get(position).getDescription());
+        holder.priceTextView.setText(menuModel.getFoods().get(position).getPrice() + " RON ");
+        holder.minusImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onMinusImageViewClicked(position);
+                holder.quantityTextView.setText(menuModel.getProductQuantities().get(menuModel.getFoods().get(position).getId()) + "");
+            }
+        });
+        holder.plusImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onPlusImageViewClicked(position);
+                holder.quantityTextView.setText(menuModel.getProductQuantities().get(menuModel.getFoods().get(position).getId()) + "");
+            }
+        });
+        holder.quantityTextView.setText(menuModel.getProductQuantities().get(menuModel.getFoods().get(position).getId()) + "");
         return convertView;
+    }
+
+    public void onMinusImageViewClicked(int position) {
+        HashMap newHashMap = menuModel.getProductQuantities();
+        newHashMap.put(menuModel.getFoods().get(position).getId(), Long.valueOf(
+                (Long) newHashMap.get(menuModel.getFoods().get(position).getId()) - 1));
+        menuModel.setProductQuantities(newHashMap, true);
+    }
+
+    public void onPlusImageViewClicked(int position) {
+        HashMap newHashMap = menuModel.getProductQuantities();
+        newHashMap.put(menuModel.getFoods().get(position).getId(), Long.valueOf(
+                (Long) newHashMap.get(menuModel.getFoods().get(position).getId()) + 1));
+        menuModel.setProductQuantities(newHashMap, true);
     }
 
     public Context getContext() {
@@ -82,9 +113,6 @@ public class FoodAdapter extends BaseAdapter {
         this.context = context;
     }
 
-    public void setCurrentItems(ArrayList<Food> items) {
-        this.currentItems = items;
-    }
 
     private static class ViewHolder {
         TextView foodNameTextView;

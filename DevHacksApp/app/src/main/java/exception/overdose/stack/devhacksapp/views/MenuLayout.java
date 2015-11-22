@@ -57,7 +57,7 @@ public class MenuLayout extends RelativeLayout implements OnChangeListener<MenuM
     }
 
     private void initLayout() {
-        ordersListView = (ListView) findViewById(R.id.activity_orders_orders_listview);
+        ordersListView = (ListView) findViewById(R.id.activity_menu_food_listview);
 //        ordersListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 //            @Override
 //            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -67,7 +67,7 @@ public class MenuLayout extends RelativeLayout implements OnChangeListener<MenuM
     }
 
     private void initToolbar() {
-        toolbar = (Toolbar) findViewById(R.id.activity_orders_toolbar);
+        toolbar = (Toolbar) findViewById(R.id.activity_menu_toolbar);
         ((AppCompatActivity) getContext()).setSupportActionBar(toolbar);
         ViewUtils.setActionBarTitle(getContext(), getContext().getResources().getString(R.string.app_name), false);
     }
@@ -75,12 +75,11 @@ public class MenuLayout extends RelativeLayout implements OnChangeListener<MenuM
     private void updateView() {
         if(foodAdapter == null)
         {
-            foodAdapter = new FoodAdapter(getContext(), getModel().getFoods(), getModel().getProductQuantities());
+            foodAdapter = new FoodAdapter(getContext(), getModel());
             ordersListView.setAdapter(foodAdapter);
         }
         else
         {
-            foodAdapter.setCurrentItems(getModel().getFoods());
             foodAdapter.notifyDataSetChanged();
         }
     }
