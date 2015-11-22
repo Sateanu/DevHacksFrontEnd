@@ -26,6 +26,7 @@ import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.LocationServices;
 
 import exception.overdose.stack.devhacksapp.R;
+import exception.overdose.stack.devhacksapp.managers.OrdersManager;
 import exception.overdose.stack.devhacksapp.managers.RestaurantsManager;
 import exception.overdose.stack.devhacksapp.utils.BEAPI;
 import exception.overdose.stack.devhacksapp.utils.Constants;
@@ -157,6 +158,9 @@ public class SignInActivity extends AppCompatActivity implements
             {
                 new BEAPI.GetRestaurantsAsync().execute();
             }
+
+            OrdersManager.getOrdersManager(SignInActivity.this);
+            OrdersManager.getOrdersManager(SignInActivity.this);
 
             new BEAPI.SendEmailAsync().execute(acct.getEmail());
 

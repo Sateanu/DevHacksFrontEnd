@@ -183,7 +183,7 @@ public class FoodAdapter extends BaseAdapter implements StickyListHeadersAdapter
             holder = (DividerViewHolder) convertView.getTag();
         }
 
-        holder.groupName.setText("Header: " + menuModel.getFoods().get(i).getCategory());
+        holder.groupName.setText(menuModel.getFoods().get(i).getCategory());
 
         return convertView;
     }

@@ -125,6 +125,7 @@ public class MenuActivity extends AppCompatActivity {
                     .show();
         } else {
             RestaurantsManager.getRestaurantsManager().setSubOrders(suborders);
+            intent.putExtra(Constants.RESTAURANT_ID, model.getRestaurantId());
             startActivity(intent);
         }
     }

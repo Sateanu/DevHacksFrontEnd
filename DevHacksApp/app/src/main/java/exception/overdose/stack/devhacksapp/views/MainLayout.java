@@ -1,5 +1,7 @@
 package exception.overdose.stack.devhacksapp.views;
 
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -11,6 +13,7 @@ import android.view.View;
 import exception.overdose.stack.devhacksapp.R;
 import exception.overdose.stack.devhacksapp.interfaces.mvc.OnChangeListener;
 import exception.overdose.stack.devhacksapp.models.MainModel;
+import exception.overdose.stack.devhacksapp.utils.ViewUtils;
 import exception.overdose.stack.devhacksapp.views.adapters.RestaurantsAdapter;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
@@ -23,6 +26,7 @@ public class MainLayout extends RelativeLayout implements OnChangeListener<MainM
 
     private StickyListHeadersListView restaurantsListView;
     private RestaurantsAdapter restaurantsAdapter;
+    private Toolbar toolbar;
 
     public interface ViewListener {
         void onItemClicked(int position);
@@ -59,6 +63,10 @@ public class MainLayout extends RelativeLayout implements OnChangeListener<MainM
     }
 
     private void initToolbar() {
+
+        toolbar = (Toolbar) findViewById(R.id.activity_main_toolbar);
+        ((AppCompatActivity) getContext()).setSupportActionBar(toolbar);
+        ViewUtils.setActionBarTitle(getContext(), getContext().getResources().getString(R.string.app_name), false);
     }
 
     private void updateView() {
