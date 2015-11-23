@@ -13,7 +13,8 @@
             android:id="@+id/activity_menu_toolbar"
             app:layout_scrollFlags="scroll|enterAlways"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize" />
+            android:layout_height="?attr/actionBarSize"
+            android:theme="@style/ActionBarThemeOverlay"/>
     </android.support.design.widget.AppBarLayout>
     <se.emilsjolander.stickylistheaders.StickyListHeadersListView
         android:id="@+id/activity_menu_food_listview"

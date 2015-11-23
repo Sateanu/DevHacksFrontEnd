@@ -78,7 +78,7 @@ public class MenuLayout extends RelativeLayout implements OnChangeListener<MenuM
         RestaurantDataSource restaurantDataSource = new RestaurantDataSource(getContext());
         restaurantDataSource.open();
 
-        ViewUtils.setActionBarTitle(getContext(), restaurantDataSource.getRestaurant(model.getRestaurantId()).getName(), true);
+        ViewUtils.setActionBarTitle(getContext(), "New Order", true);
         restaurantDataSource.closeHelper();
         if(foodAdapter == null)
         {

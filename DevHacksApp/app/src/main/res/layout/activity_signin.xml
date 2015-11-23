@@ -22,14 +22,15 @@
             android:layout_marginBottom="10dp"
             android:layout_marginTop="@dimen/g_top_margin"
             android:contentDescription="@string/desc_google_icon"
-            android:src="@mipmap/ic_launcher" />
+            android:src="@mipmap/ic_launcher"
+            android:visibility="gone"/>
 
         <TextView
             android:id="@+id/title_text"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginBottom="10dp"
-            android:text="@string/title_text"
+            android:text="Nesatulu"
             android:gravity="center"
             android:textColor="@android:color/white"
             android:textSize="36sp" />
@@ -40,7 +41,8 @@
             android:layout_height="wrap_content"
             android:text="@string/signed_out"
             android:textColor="@android:color/white"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            android:visibility="gone"/>
 
         <TextView
             android:id="@+id/detail"
@@ -52,7 +54,8 @@
             android:padding="10dp"
             android:scrollbars="vertical"
             android:textColor="@android:color/white"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            android:visibility="gone"/>
 
     </LinearLayout>
 

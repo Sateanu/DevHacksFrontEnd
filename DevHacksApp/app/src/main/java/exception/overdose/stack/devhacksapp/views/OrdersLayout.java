@@ -78,7 +78,7 @@ public class OrdersLayout  extends RelativeLayout implements OnChangeListener<Or
     private void initToolbar() {
         toolbar = (Toolbar) findViewById(R.id.activity_orders_toolbar);
         ((AppCompatActivity) getContext()).setSupportActionBar(toolbar);
-        ViewUtils.setActionBarTitle(getContext(), getContext().getResources().getString(R.string.app_name), true);
+        ViewUtils.setActionBarTitle(getContext(), "History", true);
     }
 
     private void updateView() {

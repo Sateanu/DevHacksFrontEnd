@@ -133,6 +133,7 @@ public class RestaurantsAdapter extends BaseAdapter implements StickyListHeaders
     public void setCurrentItems(ArrayList<Restaurant> items)
     {
         this.currentItems = items;
+        initIndexer();
     }
 
     @Override
@@ -182,8 +183,10 @@ public class RestaurantsAdapter extends BaseAdapter implements StickyListHeaders
     public long getHeaderId(int i) {
         Log.i("header", i + " ");
         Log.i("header", i + " " + currentItems.get(i).getSpecific());
+        Log.i("header", i + " " + currentItems.get(i).getSpecific());
         if(indexer.get(currentItems.get(i).getSpecific()) != null)
         {
+            Log.i("header3", i + " " + indexer.get(currentItems.get(i).getSpecific()));
             return indexer.get(currentItems.get(i).getSpecific() + "");//currentItems.get(i).getSpecific();
         }
         return 0;
